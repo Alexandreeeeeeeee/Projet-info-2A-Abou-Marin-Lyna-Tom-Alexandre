@@ -11,7 +11,6 @@ consumer = KafkaConsumer(
     value_deserializer=lambda x: json.loads(x.decode('utf-8'))
 )
 
-i = 1
 for message in consumer:
     message = message.value  # donnees deja ecrites au format json
     with open("doc/donnees/flux.json", "a") as file:
