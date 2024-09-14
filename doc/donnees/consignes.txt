@@ -1,0 +1,3 @@
+pip uninstall kafka-python
+pip install kafka-python-ng
+python doc/donnees/observations_ecriture.py
