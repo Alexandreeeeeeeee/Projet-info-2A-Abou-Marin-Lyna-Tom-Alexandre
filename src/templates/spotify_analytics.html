@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <div class="container mt-5">
+        <h1 class="text-center">Spotify Analytics</h1>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="card text-white bg-primary mb-3">
+                    <div class="card-header">Total Songs</div>
+                    <div class="card-body">
+                        <h5 class="card-title">{{ total_songs }}</h5>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card text-white bg-success mb-3">
+                    <div class="card-header">Total Users</div>
+                    <div class="card-body">
+                        <h5 class="card-title">{{ total_users }}</h5>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card text-white bg-warning mb-3">
+                    <div class="card-header">Average Session Duration</div>
+                    <div class="card-body">
+                        <h5 class="card-title">{{ average_duration }} seconds</h5>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mt-5">
+            <div class="col-md-12">
+                <h2>Top 10 Artists</h2>
+                <canvas id="topArtistsChart"></canvas>
+                <script>
+                    const ctx = document.getElementById('topArtistsChart').getContext('2d');
+                    const topArtists = {
+                        labels: {{ top_artists|map(attribute=0)|list|tojson }},
+                        datasets: [{
+                            label: 'Number of Songs',
+                            data: {{ top_artists|map(attribute=1)|list|tojson }},
+                            backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                            borderColor: 'rgba(54, 162, 235, 1)',
+                            borderWidth: 1
+                        }]
+                    };
+
+                    const myChart = new Chart(ctx, {
+                        type: 'bar',
+                        data: topArtists,
+                        options: {
+                            scales: {
+                                y: {
+                                    beginAtZero: true
+                                }
+                            }
+                        }
+                    });
+                </script>
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1 style="text-align: center;">Liste des Utilisateurs</h1>
+    <table style="margin: auto; border-collapse: collapse; width: 80%;">
+        <thead>
+            <tr>
+                <th style="text-align: center; border: 1px solid #ddd; padding: 8px;">Nom</th>
+                <th style="text-align: center; border: 1px solid #ddd; padding: 8px;">Prénom</th>
+                <th style="text-align: center; border: 1px solid #ddd; padding: 8px;">Genre</th>
+                <th style="text-align: center; border: 1px solid #ddd; padding: 8px;">Ville</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for utilisateur in utilisateurs %}
+                <tr>
+                    <td style="text-align: center; border: 1px solid #ddd; padding: 8px;">{{ utilisateur.lastName }}</td>
+                    <td style="text-align: center; border: 1px solid #ddd; padding: 8px;">{{ utilisateur.firstName }}</td>
+                    <td style="text-align: center; border: 1px solid #ddd; padding: 8px;">{{ utilisateur.gender }}</td>
+                    <td style="text-align: center; border: 1px solid #ddd; padding: 8px;">{{ utilisateur.city }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <div style="text-align: center; margin-top: 20px;">
+        {% if page > 1 %}
+            <a href="{{ url_for('index', page=page-1) }}">Précédent</a>
+        {% endif %}
+
+        {% if page * per_page < total %}
+            <a href="{{ url_for('index', page=page+1) }}">Suivant</a>
+        {% endif %}
+    </div>
+{% endblock %}
