@@ -19,4 +19,4 @@ class Contenir:
     def __str__(self):
         session = self.get_session()
         song = self.get_song()
-        return f"Session ID {self.sessionID_id} contains song ID {self.songID_id}: {song.title} by {song.artist}"  # Ajustez selon les attributs de votre classe Song
+        return f"Session ID {self.sessionID_id} contains song ID {self.songID_id}: {song.title} by {song.artist}"
