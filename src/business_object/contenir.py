@@ -2,6 +2,7 @@
 from business_object.session import SessionDAO
 from business_object.song import SongDAO
 
+
 class Contenir:
     def __init__(self, id, sessionID_id, songID_id):
         self.id = id
@@ -17,6 +18,6 @@ class Contenir:
         return song_dao.get_song_by_id(self.songID_id)
 
     def __str__(self):
-        session = self.get_session()
         song = self.get_song()
-        return f"Session ID {self.sessionID_id} contains song ID {self.songID_id}: {song.title} by {song.artist}"
+        return f"Session ID {self.sessionID_id} contains song ID \
+    {self.songID_id}: {song.title} by {song.artist}"

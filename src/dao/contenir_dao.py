@@ -2,6 +2,7 @@
 from dao.db_connection import get_connection
 from business_object.contenir import Contenir
 
+
 class ContenirDAO:
     def add_contenir(self, contenir):
         conn = get_connection()
