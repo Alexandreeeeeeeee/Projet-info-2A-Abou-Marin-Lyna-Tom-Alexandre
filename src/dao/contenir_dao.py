@@ -13,7 +13,7 @@ class ContenirDAO:
         try:
             cursor.execute(query, (
                 contenir.sessionID_id,
-                contenir.songID_id  # Assurez-vous d'utiliser songID
+                contenir.songID_id
             ))
             conn.commit()
         except Exception as e:
