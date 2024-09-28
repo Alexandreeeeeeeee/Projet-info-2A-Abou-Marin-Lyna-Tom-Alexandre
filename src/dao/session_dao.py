@@ -34,7 +34,7 @@ class SessionDAO:
         finally:
             cursor.close()
             conn.close()
-    
+
     def delete_all_sessions(self):
         conn = get_connection()
         cursor = conn.cursor()
@@ -43,7 +43,7 @@ class SessionDAO:
         conn.commit()
         cursor.close()
         conn.close()
-    
+
     def get_all_sessions(self):
         conn = get_connection()
         cursor = conn.cursor()
