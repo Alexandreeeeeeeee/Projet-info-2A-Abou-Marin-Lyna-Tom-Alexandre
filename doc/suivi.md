@@ -67,23 +67,23 @@ gantt
 * [x] Diagramme de Gantt
 * [x] Diagramme de cas d'utilisation
 * [x] Diagramme de classe
-* [ ] Répartition des parties à rédiger
+* [x] Répartition des parties à rédiger
 
 ## Code
 
-* [ ] Créer dépôt Git commun
-  * [ ] vérifier que tout le monde peut **push** et **pull**
-* [ ] Version 0 de l'application
+* [x] Créer dépôt Git commun
+  * [x] vérifier que tout le monde peut **push** et **pull**
+* [x] Version 0 de l'application
   * coder une et une seule fonctionnalité simple de A à Z, et faire tourner l'appli
   * cela permettra à toute l'équipe d'avoir une bonne base de départ
-* [ ] Lister classes et méthodes à coder
+* [x] Lister classes et méthodes à coder
 
 ---
 
-* [ ] appel WS
-* [ ] création WS
-* [ ] Vue inscription
-* [ ] hacher mdp
+* [x] appel WS
+* [x] création WS
+* [x] Vue inscription
+* [x] hacher mdp
 
 ---
 
