@@ -17,13 +17,13 @@ class SpotifyService:
         for utilisateur in utilisateurs:
             folium.Marker(
                 location=[utilisateur.lat, utilisateur.lon],
-                popup=f"{utilisateur.firstName} {utilisateur.lastName}"
+                popup=f"{utilisateur.firstName} {utilisateur.lastName}",
             ).add_to(m)
-        m.save('src/templates/map.html')  # Sauvegarder dans le dossier templates
+        m.save("src/templates/map.html")  # Sauvegarder dans le dossier templates
+
     def get_user_locations(self):
         utilisateurs = self.utilisateur_dao.get_all_users()  # Récupérer les utilisateurs
         return [(utilisateur.city, utilisateur.state) for utilisateur in utilisateurs]
-
 
     def get_total_songs(self):
         # Récupérer toutes les chansons et compter
