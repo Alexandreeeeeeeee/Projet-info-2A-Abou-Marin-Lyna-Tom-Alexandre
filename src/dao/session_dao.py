@@ -17,6 +17,7 @@ class SessionDAO:
         query = """
             INSERT INTO analytics_session ("sessionID", "ts", "auth", "level", "userAgent", "item_in_session", "userID_id")
             VALUES (%s, %s, %s, %s, %s, %s, %s)
+            
         """
         try:
             cursor.execute(query, (
