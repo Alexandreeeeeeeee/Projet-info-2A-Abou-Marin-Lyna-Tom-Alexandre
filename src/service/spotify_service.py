@@ -40,5 +40,3 @@ class SpotifyService:
     def get_top_artists(self):
         # Récupérer les artistes les plus populaires
         return self.song_dao.get_top_artists()
-    
-    
