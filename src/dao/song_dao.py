@@ -28,10 +28,13 @@ class SongDAO:
         cursor = conn.cursor()
         query = 'SELECT * FROM analytics_song WHERE "songID" = %s'
         cursor.execute(query, (songID,))
-        result = cursor.fetchone()
+        raw = cursor.fetchone()
+        song = None
+        if raw:
+            song = Song(*raw)
         cursor.close()
         conn.close()
-        return result
+        return song
 
     def count_songs(self):
         with self.connection.cursor() as cursor:
@@ -40,5 +43,19 @@ class SongDAO:
 
     def get_top_artists(self):
         with self.connection.cursor() as cursor:
-            cursor.execute("SELECT artist, COUNT(*) as count FROM analytics_song GROUP BY artist ORDER BY count DESC LIMIT 5")
+            cursor.execute(
+                "SELECT artist, COUNT(*) as count FROM analytics_song GROUP BY artist ORDER BY count DESC LIMIT 5"
+            )
             return cursor.fetchall()
+
+    def get_all_song(self):
+        conn = get_connection()
+        cursor = conn.cursor()
+        query = "SELECT * FROM analytics_song"
+        cursor.execute(query)
+        rows = cursor.fetchall()
+        if rows:
+            songs = [Song(*row) for row in rows]
+        cursor.close()
+        conn.close()
+        return songs

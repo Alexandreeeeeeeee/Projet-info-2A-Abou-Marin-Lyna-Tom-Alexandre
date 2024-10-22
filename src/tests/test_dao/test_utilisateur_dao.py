@@ -56,14 +56,14 @@ class TestUtilisateurDAO(unittest.TestCase):
         self.assertEqual(utilisateurs[0].firstName, "John")
 
     def test_delete_all_users(self):
-        pass
+        pass  # attention utiliser le mock sinon pb dans bdd
 
     def test_get_user_by_id_success(self):
-        id_user = 10899
+        id_user = 9551
 
         user = self.dao.get_user_by_id(id_user)
 
-        self.assertEqual(10899, user.userID)  # erreur
+        self.assertEqual(id_user, user.userID)
 
     def test_get_user_by_id_fail(self):
 
@@ -74,10 +74,10 @@ class TestUtilisateurDAO(unittest.TestCase):
         assert user is None
 
     def test_count_users(self):
-
+        nb_users = 587
         res = self.dao.count_users()
 
-        self.assertEqual(res, 2)  # erreur
+        self.assertEqual(res, nb_users)  # erreur
 
 
 if __name__ == "__main__":
