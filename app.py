@@ -3,11 +3,17 @@ from dao.utilisateur_dao import UtilisateurDAO
 from src.service.spotify_service import SpotifyService
 from flask import request
 
-app = Flask(__name__, template_folder='src/templates')
+app = Flask(__name__,static_folder='src/static' ,template_folder='src/templates')
 # Instance du service Spotify
 spotify_service = SpotifyService()
 
 utilisateur_dao = UtilisateurDAO()
+
+
+@app.route('/indexx')
+def indexx():
+    return render_template('indexx.html')
+
 
 @app.route('/', methods=['GET'])
 def index():
