@@ -2,6 +2,7 @@ from business_object.utilisateur import Utilisateur
 
 # business_object/session.py
 
+
 class Session:
     def __init__(self, sessionID, ts, auth, level, userAgent, item_in_session, userID_id):
         self.sessionID = sessionID
@@ -11,6 +12,7 @@ class Session:
         self.userAgent = userAgent
         self.item_in_session = item_in_session
         self.userID_id = userID_id
+
 
 # Ajoutez la classe SessionDAO ici
 class SessionDAO:
