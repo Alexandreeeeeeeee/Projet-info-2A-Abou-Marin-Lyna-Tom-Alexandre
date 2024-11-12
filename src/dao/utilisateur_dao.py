@@ -87,3 +87,24 @@ class UtilisateurDAO:
             cursor.execute("SELECT COUNT(*) FROM analytics_utilisateur")
             res = cursor.fetchone()[0]
             return res
+
+
+    def get_top_artists_by_date(self):
+        with self.connection.cursor() as cursor:
+            cursor.execute("""
+                SELECT 
+                    artist, 
+                    to_timestamp(ts / 1000) AS date, 
+                    COUNT(*) as count 
+                FROM 
+                    analytics_song 
+                JOIN 
+                    analytics_session ON analytics_session.sessionID = analytics_song.sessionID_id 
+                GROUP BY 
+                    artist, date 
+                ORDER BY 
+                    date DESC, count DESC 
+                LIMIT 10
+            """)
+            return cursor.fetchall()
+

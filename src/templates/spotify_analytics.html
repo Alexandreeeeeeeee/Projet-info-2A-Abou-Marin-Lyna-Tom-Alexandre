@@ -35,34 +35,77 @@
 
         <div class="row mt-5">
             <div class="col-md-12">
-                <h2>Top 10 Artists</h2>
+                <h2>Top 10 Artists by Date</h2>
+                <select id="dateSelect" class="form-control mb-3" onchange="updateChart()">
+                    <option value="">Select a date</option>
+                    {% for date in dates %}
+                        <option value="{{ date }}">{{ date }}</option>
+                    {% endfor %}
+                </select>
                 <canvas id="topArtistsChart"></canvas>
                 <script>
+                    const topArtistsData = {{ top_artists|tojson }};
                     const ctx = document.getElementById('topArtistsChart').getContext('2d');
-                    const topArtists = {
-                        labels: {{ top_artists|map(attribute=0)|list|tojson }},
-                        datasets: [{
-                            label: 'Number of Songs',
-                            data: {{ top_artists|map(attribute=1)|list|tojson }},
-                            backgroundColor: 'rgba(54, 162, 235, 0.2)',
-                            borderColor: 'rgba(54, 162, 235, 1)',
-                            borderWidth: 1
-                        }]
-                    };
+                    let myChart;
 
-                    const myChart = new Chart(ctx, {
-                        type: 'bar',
-                        data: topArtists,
-                        options: {
-                            scales: {
-                                y: {
-                                    beginAtZero: true
-                                }
-                            }
+                    function updateChart() {
+                        const selectedDate = document.getElementById('dateSelect').value;
+                        if (myChart) {
+                            myChart.destroy(); // Détruire l'ancien graphique si existant
                         }
-                    });
+                        if (selectedDate) {
+                            const artists = topArtistsData[selectedDate];
+                            const labels = artists.map(a => a[0]);
+                            const data = artists.map(a => a[1]);
+
+                            myChart = new Chart(ctx, {
+                                type: 'bar',
+                                data: {
+                                    labels: labels,
+                                    datasets: [{
+                                        label: 'Number of Songs',
+                                        data: data,
+                                        backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                                        borderColor: 'rgba(54, 162, 235, 1)',
+                                        borderWidth: 1
+                                    }]
+                                },
+                                options: {
+                                    scales: {
+                                        y: {
+                                            beginAtZero: true
+                                        }
+                                    }
+                                }
+                            });
+                        }
+                    }
                 </script>
             </div>
         </div>
+
+        <!-- Section pour afficher la moyenne des ItemInSession par niveau d'abonnement -->
+        <div class="row mt-5">
+            <div class="col-md-12">
+                <h2>Moyenne des ItemInSession par Niveau d'Abonnement</h2>
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Niveau d'Abonnement</th>
+                            <th>Moyenne des ItemInSession</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for level, average in average_items_by_level.items() %}
+                        <tr>
+                            <td>{{ level }}</td>
+                            <td>{{ average | round(1) }}</td>  <!-- Arrondi à un chiffre après la virgule -->
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        
     </div>
 {% endblock %}

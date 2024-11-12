@@ -1,0 +1,27 @@
+services:
+  flask_app:
+    container_name: flask_app
+    image: spotifanalytics/flask_spotify_app:1.0.0
+    build: .
+    ports:
+      - "5000:5000"
+    environment:
+      - DB_URL=postgresql://postgres:postgres@flask_db:5432/postgres
+      - DB_HOST=host.docker.internal
+    depends_on:
+      - flask_db
+
+  flask_db:
+    container_name: flask_db
+    image: postgres:17
+    ports:
+      - "5433:5432"  # Adjusted port on host
+    environment:
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_DB=postgres
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+volumes:
+  pgdata: {}

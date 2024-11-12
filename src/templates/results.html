@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block title %}Résultats de la Question{% endblock %}
+
+{% block content %}
+    <style>
+        /* Ajout d'un margin-top pour descendre le contenu */
+        .content-spacing {
+            margin-top: 3cm;
+        }
+    </style>
+
+    <div class="content-spacing">
+        <h1>Résultats pour votre question</h1>
+        <p><strong>Question :</strong> {{ question }}</p>
+        <div class="alert alert-info">
+            <strong>Réponse :</strong> {{ results }}
+        </div>
+        <a href="/ask" class="btn btn-primary">Poser une autre question</a>
+    </div>
+{% endblock %}
