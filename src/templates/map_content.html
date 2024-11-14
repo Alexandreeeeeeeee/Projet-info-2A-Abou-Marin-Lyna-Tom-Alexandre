@@ -1,9 +1,9 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <div style="max-width: 800px; margin: 0 auto; padding: 20px;"> <!-- Conteneur centré -->
-        <h1 style="margin-top: 2.7cm;">Carte des utilisateurs</h1>  <!-- Ajouter la marge supérieure ici -->
-        <div id="map" style="width: 100%; height: 600px;"></div> <!-- La carte descend également -->
+    <div style="max-width: 90%; margin: 2cm auto 0; padding: 20px; background-color: #000; color: white; border-radius: 15px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);">
+        <h1 style="text-align: center; color: #1DB954; font-weight: bold; margin-bottom: 20px;">Map of Users</h1>
+        <div id="map" style="width: 100%; height: 600px; border-radius: 15px; border: 2px solid #1DB954;"></div>
     </div>
 
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
@@ -20,11 +20,16 @@
 
         // Ajouter les marqueurs pour les utilisateurs
         var userLocations = {{ user_locations|tojson }}; // Convertir les coordonnées en JSON
-        
+
         userLocations.forEach(function(location) {
             var lat = location[0]; // latitude
             var lon = location[1]; // longitude
-            L.marker([lat, lon]).addTo(map).bindPopup("Utilisateur: " + lat + ", " + lon);
+            L.marker([lat, lon], {
+                icon: L.icon({
+                    iconUrl: 'https://upload.wikimedia.org/wikipedia/commons/1/19/Spotify_logo_without_text.svg', // Icône style Spotify
+                    iconSize: [20, 20], // Taille de l'icône
+                })
+            }).addTo(map).bindPopup("<span style='color: #1DB954;'>Utilisateur</span>: " + lat + ", " + lon);
         });
     </script>
 {% endblock %}

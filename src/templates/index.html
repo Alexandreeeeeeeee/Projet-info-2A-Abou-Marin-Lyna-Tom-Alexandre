@@ -1,35 +1,44 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <h1 style="text-align: center; margin-top: 3.5cm;">Liste des Utilisateurs</h1>
-    <table style="margin: auto; border-collapse: collapse; width: 80%; margin-top: 1.5cm;">
-        <thead>
-            <tr>
-                <th style="text-align: center; border: 1px solid #ddd; padding: 8px;">Nom</th>
-                <th style="text-align: center; border: 1px solid #ddd; padding: 8px;">Prénom</th>
-                <th style="text-align: center; border: 1px solid #ddd; padding: 8px;">Genre</th>
-                <th style="text-align: center; border: 1px solid #ddd; padding: 8px;">Ville</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for utilisateur in utilisateurs %}
-                <tr>
-                    <td style="text-align: center; border: 1px solid #ddd; padding: 8px;">{{ utilisateur.lastName }}</td>
-                    <td style="text-align: center; border: 1px solid #ddd; padding: 8px;">{{ utilisateur.firstName }}</td>
-                    <td style="text-align: center; border: 1px solid #ddd; padding: 8px;">{{ utilisateur.gender }}</td>
-                    <td style="text-align: center; border: 1px solid #ddd; padding: 8px;">{{ utilisateur.city }}</td>
+    <div style="margin: 2.5cm auto 0; text-align: center; color: #1DB954;">
+        <h1 style="font-weight: 600;font-weight: bold">List of Users</h1>
+    </div>
+
+    <div style="width: 90%; margin: auto; overflow-x: auto; padding-bottom: 50px;">
+        <table style="width: 100%; border-collapse: collapse; margin-top: 1.5cm; background-color: #000; color: white; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); border-radius: 10px; overflow: hidden;">
+            <thead>
+                <tr style="background-color: #1DB954; color: white; font-weight: bold;">
+                    <th style="text-align: center; padding: 15px; border-bottom: 1px solid #333;">Name</th>
+                    <th style="text-align: center; padding: 15px; border-bottom: 1px solid #333;">Surname</th>
+                    <th style="text-align: center; padding: 15px; border-bottom: 1px solid #333;">Gender</th>
+                    <th style="text-align: center; padding: 15px; border-bottom: 1px solid #333;">City</th>
                 </tr>
-            {% endfor %}
-        </tbody>
-    </table>v
+            </thead>
+            <tbody>
+                {% for utilisateur in utilisateurs %}
+                    <tr style="border-bottom: 1px solid #333;">
+                        <td style="text-align: center; padding: 12px;">{{ utilisateur.lastName }}</td>
+                        <td style="text-align: center; padding: 12px;">{{ utilisateur.firstName }}</td>
+                        <td style="text-align: center; padding: 12px;">{{ utilisateur.gender }}</td>
+                        <td style="text-align: center; padding: 12px;">{{ utilisateur.city }}</td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="4" style="text-align: center; padding: 20px; color: #aaa;">No users found</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
 
     <div style="text-align: center; margin-top: 20px;">
         {% if page > 1 %}
-            <a href="{{ url_for('index', page=page-1) }}">Précédent</a>
+            <a href="{{ url_for('index', page=page-1) }}" style="color: #1DB954; text-decoration: none; margin-right: 15px;">&laquo; Previous</a>
         {% endif %}
 
         {% if page * per_page < total %}
-            <a href="{{ url_for('index', page=page+1) }}">Suivant</a>
+            <a href="{{ url_for('index', page=page+1) }}" style="color: #1DB954; text-decoration: none; margin-left: 15px;">Next &raquo;</a>
         {% endif %}
     </div>
 {% endblock %}

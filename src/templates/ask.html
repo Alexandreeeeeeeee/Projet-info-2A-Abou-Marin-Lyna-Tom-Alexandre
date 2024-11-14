@@ -5,16 +5,25 @@
 {% block content %}
     <style>
         .content-container {
-            margin-top: 3cm;
-            padding: 20px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            background-color: #f9f9f9;
-            box-shadow: 2px 2px 12px rgba(0, 0, 0, 0.1);
+            padding: 50px;
+            border-radius: 10px;
+            background-color: black; /* Fond sombre, style Spotify */
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            color: white;
+            min-height: 100vh; /* Hauteur de la page pour remplir tout l'écran */
+            margin-bottom: 40px; /* Ajouter un peu d'espace sous la section */
+            display: flex;
+            flex-direction: column; /* Organise les éléments de façon verticale */
+            align-items: center; /* Centre tout le contenu horizontalement */
         }
 
         h1, h2, h3 {
-            color: #333;
+            color: #1DB954; /* Vert Spotify */
+            font-weight: bold;
+        }
+
+        h1 {
+            margin-top: 2cm; /* Augmente l'espace avant le titre pour le remonter */
         }
 
         form {
@@ -24,76 +33,117 @@
         label {
             display: block;
             margin-bottom: 8px;
+            font-size: 1.1em;
         }
 
         input[type="text"] {
             width: 100%;
-            padding: 10px;
-            margin-bottom: 10px;
-            border: 1px solid #ccc;
+            padding: 12px;
+            margin-bottom: 15px;
+            border: 2px solid #1DB954; /* Bordure verte */
             border-radius: 4px;
+            background-color: #1E1E1E;
+            color: white;
+            font-size: 1em;
+        }
+
+        input[type="text"]:focus {
+            border-color: #1DB954;
+            outline: none;
         }
 
         button {
-            padding: 10px 15px;
-            background-color: #007bff;
+            padding: 12px 20px;
+            background-color: #1DB954; /* Vert Spotify */
             color: white;
             border: none;
             border-radius: 4px;
             cursor: pointer;
+            font-size: 1.1em;
         }
 
         button:hover {
-            background-color: #0056b3;
+            background-color: #1ED760; /* Vert plus clair pour le hover */
         }
 
         table {
             width: 100%;
             border-collapse: collapse;
-            margin-top: 20px;
+            margin-top: 30px;
         }
 
         th, td {
-            padding: 10px;
-            border: 1px solid #ccc;
+            padding: 12px;
+            border: 1px solid #333;
             text-align: left;
+            font-size: 1em;
         }
 
         th {
-            background-color: #f2f2f2;
+            background-color: #1DB954; /* Fond vert pour l'entête */
+            color: white;
+            font-weight: bold;
+            text-align: center; /* Centrer les titres des colonnes */
+        }
+
+        td {
+            text-align: center; /* Centrer les valeurs dans les cellules */
+        }
+
+        tr:nth-child(even) {
+            background-color: #282828; /* Légère alternance de couleur pour les lignes */
+        }
+
+        tr:hover {
+            background-color: #3A3A3A; /* Surligner au survol */
+        }
+
+        .error-message {
+            color: #E74C3C; /* Rouge pour les messages d'erreur */
+        }
+
+        .question-result {
+            margin-top: 20px;
+            font-size: 1.1em;
         }
     </style>
 
     <div class="content-container">
-        <h1>Posez votre question sur la base de données</h1>
-        
+        <h1>Ask question on Spotify Data</h1>
+
         <form method="POST" action="/ask">
             <label for="question">Question :</label>
-            <input type="text" id="question" name="question" required>
-            <button type="submit">Poser la question</button>
+            <input type="text" id="question" name="question" required placeholder="Enter the question here...">
+            <button type="submit">Ask the Question</button>
         </form>
 
         {% if question %}
-            <h2>Question : {{ question }}</h2>
-            <h3>Résultat :</h3>
-            {% if result %}
-                <table>
-                    <tr>
-                        {% for col in result[0] %}
-                            <th>{{ loop.index }}</th>
-                        {% endfor %}
-                    </tr>
-                    {% for row in result %}
-                        <tr>
-                            {% for item in row %}
-                                <td>{{ item }}</td>
+            <div class="question-result">
+                <h2>Question : {{ question }}</h2>
+                <h3>Résultat :</h3>
+                {% if result %}
+                    <table>
+                        <thead>
+                            <tr>
+                                {% for col in result[0] %}
+                                    <th>{{ col }}</th> <!-- Utilisation des noms de colonnes -->
+                                {% endfor %}
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for row in result %}
+                                <tr>
+                                    {% for item in row %}
+                                        <td>{{ item }}</td>
+                                    {% endfor %}
+                                </tr>
                             {% endfor %}
-                        </tr>
-                    {% endfor %}
-                </table>
-            {% else %}
-                <p>{{ error }}</p>
-            {% endif %}
+                        </tbody>
+                    </table>
+                {% else %}
+                    <p class="error-message">{{ error }}</p>
+                {% endif %}
+            </div>
         {% endif %}
     </div>
 {% endblock %}

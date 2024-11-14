@@ -1,152 +1,128 @@
 <!DOCTYPE html>
 <html lang="en">
 
-
   <head style="color: black;">
-
-
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-
-
-
-
     <title>Space Dynamic - SEO HTML5 Template</title>
 
-
     <!-- Bootstrap core CSS -->
-
-
-    <!-- Additional CSS Files -->
     <link href="{{ url_for('static', filename='vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
     <link rel="stylesheet" href="{{ url_for('static', filename='assets/css/fontawesome.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='assets/css/templatemo-space-dynamic.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='assets/css/animated.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='assets/css/owl.css') }}">
-
-
-
-
-<!--
-
-
-TemplateMo 562 Space Dynamic
-
-
-https://templatemo.com/tm-562-space-dynamic
-
-
--->
   </head>
 
-
-<body style="background-color: black;">
-  <!-- ***** Header Area Start ***** -->
-  <header class="header-area" data-wow-duration="0.75s" data-wow-delay="0s" style="background-color:black;">
-    <div class="container" style="color: black;">
-      <div class="row" style="background-color: black" >
-        <div class="col-12" >
-          <nav class="main-nav" >
-            <!-- ***** Logo Start ***** -->
-            <a href="index.html" class="logo" style="background-color: black;">
-              <h4 style="color: #1DB954;">Spotify <span style="color: white;">Analytics</span></h4>
-            </a>
-            <!-- ***** Logo End ***** -->
-            <!-- ***** Menu Start ***** -->
-            <ul class="nav">
-              <li class="scroll-to-section"><a href="{{ url_for('indexx') }}" style="color: #1DB954;">Home</a></li>
-              <li class="scroll-to-section"><a href="{{ url_for('index') }}" style="color: white;">Users</a></li>
-              <li class="scroll-to-section"><a href="{{ url_for('show_map') }}" style="color: white;">Map</a></li>
-              <li class="scroll-to-section"><a href="{{ url_for('spotify_analytics') }}" style="color: white;">Analytics</a></li>
-              <li class="scroll-to-section"><a href="{{ url_for('ask') }}"  style="color: white;">Ask me </a></li>
-
-
-              <li></li>
-           </ul>
-            <a class='menu-trigger'>
+  <body style="background-color: black;">
+    <!-- ***** Header Area Start ***** -->
+    <header class="header-area" data-wow-duration="0.75s" data-wow-delay="0s" style="background-color:black;">
+      <div class="container" style="color: black;">
+        <div class="row" style="background-color: black">
+          <div class="col-12">
+            <nav class="main-nav">
+              <!-- ***** Logo Start ***** -->
+              <a href="index.html" class="logo" style="background-color: black;">
+                <h4 style="color: #1DB954;">Spotify <span style="color: white;">Analytics</span></h4>
+              </a>
+              <!-- ***** Logo End ***** -->
+              <!-- ***** Menu Start ***** -->
+              <ul class="nav">
+                <li class="scroll-to-section"><a href="{{ url_for('indexx') }}" style="color: #1DB954;">Home</a></li>
+                <li class="scroll-to-section"><a href="{{ url_for('index') }}" style="color: white;">Users</a></li>
+                <li class="scroll-to-section"><a href="{{ url_for('show_mapp') }}" style="color: white;">Map</a></li>
+                <li class="scroll-to-section"><a href="{{ url_for('spotify_analytics') }}" style="color: white;">Analytics</a></li>
+                <li class="scroll-to-section"><a href="{{ url_for('ask') }}" style="color: white;">Ask me </a></li>
+                <li></li>
+              </ul>
+              <a class='menu-trigger'>
                 <span>Menu</span>
-            </a>
-            <!-- ***** Menu End ***** -->
-          </nav>
-        </div>
-      </div>
-    </div>
-  </header>
-  <!-- ***** Header Area End ***** -->
-  <div class="main-banner wow fadeIn" id="top" data-wow-duration="1s" data-wow-delay="0.5s" style="color: black;">
-    <div class="container d-flex justify-content-center">
-      <div class="left-content header-text wow fadeInLeft text-center" data-wow-duration="1s" data-wow-delay="1s">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/1/19/Spotify_logo_without_text.svg" alt="Spotify Logo" style="max-width: 150px; margin-bottom: 2s0px;">
-        <h6 style="color: white;">Welcome to <span style="color: #1DB954;">Spotify </span>Analytics</h6>
-        <h2 style="color: white;"><em style="color: #1DB954;">Statistics</em> &amp; <em style="color: #1DB954;"> Music Analysis</em> on Spotify</h2>
-        <p style="color: white;">Unlock the potential of your music data with <em style="color: #1DB954;">Spotify Analytics</em>. Dive into interactive insights, user trends, and <em style="color: #1DB954;">advanced statistics </em>, all through <em style="color: #1DB954;">modern interface</em> designed for ultimate ease and performance.</p>
-
-
-
-
-        <div class="services row justify-content-center">
-          <div class="col-lg-3 col-md-6 col-sm-12 mb-3">
-            <div class="item d-flex align-items-center wow fadeIn" data-wow-duration="1s" data-wow-delay="0.5s">
-
-
-              <div class="right-text" style="background-color: #1DB954; padding: 10px; border-radius: 15px;">
-                <h4 style="font-size: 0.9rem; color: white;">User Display</h4>
-                <p style="font-size: 0.75rem;color: white;">Provides access to Spotify users and their session characteristics.</p>
-              </div>
-            </div>
-          </div>
-          <div class="col-lg-3 col-md-6 col-sm-12 mb-3">
-            <div class="item d-flex align-items-center wow fadeIn" data-wow-duration="1s" data-wow-delay="0.7s">
-              <div class="right-text" style="background-color: #1DB954; padding: 10px; border-radius: 15px;">
-                <h4 style="font-size: 0.9rem; color: white;">Real-Time Data Analysis</h4>
-                <p style="font-size: 0.75rem; color: white;">Analyzes user listening data according to the selected time frame.</p>
-              </div>
-            </div>
-          </div>
-          <div class="col-lg-3 col-md-6 col-sm-12 mb-3">
-            <div class="item d-flex align-items-center wow fadeIn" data-wow-duration="1s" data-wow-delay="0.9s">
-              <div class="right-text" style="background-color: #1DB954; padding: 10px; border-radius: 15px;">
-                <h4 style="font-size: 0.9rem; color: white;">User Map</h4>
-                <p style="font-size: 0.75rem; color: white;">Displays Spotify users on a map.</p>
-              </div>
-            </div>
-          </div>
-          <div class="col-lg-3 col-md-6 col-sm-12 mb-3">
-            <div class="item d-flex align-items-center wow fadeIn" data-wow-duration="1s" data-wow-delay="1.1s">
-              <div class="right-text" style="background-color: #1DB954; padding: 10px; border-radius: 15px;">
-                <h4 style="font-size: 0.9rem; color: white;">SpotifyGPT</h4>
-                <p style="font-size: 0.75rem; color: white;">A chatbot that allows users to get various analyses.</p>
-              </div>
-            </div>
+              </a>
+              <!-- ***** Menu End ***** -->
+            </nav>
           </div>
         </div>
       </div>
+    </header>
+    <!-- ***** Header Area End ***** -->
+
+    <!-- ***** Banner Area Start ***** -->
+    <div class="main-banner wow fadeIn" id="top" data-wow-duration="1s" data-wow-delay="0.5s" style="color: black;">
+      <div class="container d-flex justify-content-center">
+        <div class="left-content header-text wow fadeInLeft text-center" data-wow-duration="1s" data-wow-delay="1s">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/1/19/Spotify_logo_without_text.svg" alt="Spotify Logo" style="max-width: 200px; margin-bottom: 50px;">
+          <h6 style="color: white;">Welcome to <span style="color: #1DB954;">Spotify </span>Analytics</h6>
+          <h2 style="color: white;"><em style="color: #1DB954;">Statistics</em> &amp; <em style="color: #1DB954;"> Music Analysis</em> on Spotify</h2>
+          <p style="color: white;">Unlock the potential of your music data with <em style="color: #1DB954;">Spotify Analytics</em>. Dive into interactive insights, user trends, and <em style="color: #1DB954;">advanced statistics</em>, all through <em style="color: #1DB954;">modern interface</em> designed for ultimate ease and performance.</p>
+
+          <!-- ***** Services Section Start ***** -->
+          <div class="services row justify-content-center">
+            <div class="col-lg-3 col-md-6 col-sm-12 mb-3">
+              <div class="item d-flex align-items-center wow fadeIn" data-wow-duration="1s" data-wow-delay="0.5s">
+                <div class="right-text" style="background-color: #1DB954; padding: 10px; border-radius: 15px; margin: 0 10px;">
+                  <h4 style="font-size: 0.9rem; color: white;">User Display</h4>
+                  <p style="font-size: 0.75rem;color: white;">Provides access to Spotify users and their session characteristics.</p>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-3 col-md-6 col-sm-12 mb-3">
+              <div class="item d-flex align-items-center wow fadeIn" data-wow-duration="1s" data-wow-delay="0.7s">
+                <div class="right-text" style="background-color: #1DB954; padding: 10px; border-radius: 15px; margin: 0 10px;">
+                  <h4 style="font-size: 0.9rem; color: white;">Real-Time Data Analysis</h4>
+                  <p style="font-size: 0.75rem; color: white;">Analyzes user listening data according to the selected time frame.</p>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-3 col-md-6 col-sm-12 mb-3">
+              <div class="item d-flex align-items-center wow fadeIn" data-wow-duration="1s" data-wow-delay="0.9s">
+                <div class="right-text" style="background-color: #1DB954; padding: 10px; border-radius: 15px; margin: 0 10px;">
+                  <h4 style="font-size: 0.9rem; color: white;">User Map</h4>
+                  <p style="font-size: 0.75rem; color: white;">Displays Spotify users on a map.</p>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-3 col-md-6 col-sm-12 mb-3">
+              <div class="item d-flex align-items-center wow fadeIn" data-wow-duration="1s" data-wow-delay="1.1s">
+                <div class="right-text" style="background-color: #1DB954; padding: 10px; border-radius: 15px; margin: 0 10px;">
+                  <h4 style="font-size: 0.9rem; color: white;">SpotifyGPT</h4>
+                  <p style="font-size: 0.75rem; color: white;">A chatbot that allows users to get various analyses.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- ***** Services Section End ***** -->
+        </div>
+      </div>
     </div>
-  </div>
+    <!-- ***** Banner Area End ***** -->
+
+        <!-- ***** Footer Area Start ***** -->
+        <footer class="footer-area" style="background-color: black; padding: 40px 0; color: white; text-align: center;">
+          <div class="container">
+              <div class="row">
+                  <div class="col-12">
+                      <p style="font-size: 14px; color: white;">&copy; 2024 <span style="color: #1DB954;">Spotify Analytics</span></p>
+                      <p style="font-size: 12px; color: white;">
+                          Designed by <a style="color: #1DB954; text-decoration: none;">  Boucher Alexandre - Catoire Tom - Diallo Abou - Floch Marin - Kheloufi Lyna</a>
+                      </p>
+                  </div>
+              </div>
+          </div>
+      </footer>
+      <!-- ***** Footer Area End ***** -->
 
 
+    <!-- Scripts -->
+    <script src="{{ url_for('static', filename='vendor/jquery/jquery.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='assets/js/owl-carousel.js') }}"></script>
+    <script src="{{ url_for('static', filename='assets/js/animation.js') }}"></script>
+    <script src="{{ url_for('static', filename='assets/js/imagesloaded.js') }}"></script>
+    <script src="{{ url_for('static', filename='assets/js/templatemo-custom.js') }}"></script>
+  </body>
 
-
-  <!-- Scripts -->
-  <script src="{{ url_for('static', filename='vendor/jquery/jquery.min.js') }}"></script>
-  <script src="{{ url_for('static', filename='vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
-  <script src="{{ url_for('static', filename='assets/js/owl-carousel.js') }}"></script>
-  <script src="{{ url_for('static', filename='assets/js/animation.js') }}"></script>
-  <script src="{{ url_for('static', filename='assets/js/imagesloaded.js') }}"></script>
-  <script src="{{ url_for('static', filename='assets/js/templatemo-custom.js') }}"></script>
-
-
-
-
-
-
-
-
-
-
-</body>
 </html>

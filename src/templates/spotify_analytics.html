@@ -4,30 +4,26 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-    <div class="container mt-5">
-        <h1 style="text-align: center; margin-top: 3.5cm;">Spotify Analytics</h1> <!-- Décalage de 5cm -->
-        <div class="row">
+    <div class="container mt-5" style="color: white; padding-bottom: 50px;">
+        <div class="text-center" style="margin-bottom: 40px;">
+            <h1 style="color: #1DB954; font-weight: bold;">Spotify Analytics</h1>
+            <p style="font-size: 1.2rem; color: white; font-weight: bold">Get insights into your Spotify data</p>
+        </div>
+
+        <div class="row justify-content-center mb-4">
             <div class="col-md-4">
-                <div class="card text-white bg-primary mb-3">
-                    <div class="card-header">Total Songs</div>
-                    <div class="card-body">
-                        <h5 class="card-title">{{ total_songs }}</h5>
+                <div class="card text-white" style="background-color: #1DB954;">
+                    <div class="card-header" style="background-color: #1DB954; border: none;">Total Songs</div>
+                    <div class="card-body text-center">
+                        <h5 class="card-title" style="font-size: 2rem;">{{ total_songs }}</h5>
                     </div>
                 </div>
             </div>
             <div class="col-md-4">
-                <div class="card text-white bg-success mb-3">
-                    <div class="card-header">Total Users</div>
-                    <div class="card-body">
-                        <h5 class="card-title">{{ total_users }}</h5>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="card text-white bg-warning mb-3">
-                    <div class="card-header">Average Session Duration</div>
-                    <div class="card-body">
-                        <h5 class="card-title">{{ average_duration }} seconds</h5>
+                <div class="card text-white" style="background-color: #1ED760;">
+                    <div class="card-header" style="background-color: #1ED760; border: none;">Total Users</div>
+                    <div class="card-body text-center">
+                        <h5 class="card-title" style="font-size: 2rem;">{{ total_users }}</h5>
                     </div>
                 </div>
             </div>
@@ -35,13 +31,15 @@
 
         <div class="row mt-5">
             <div class="col-md-12">
-                <h2>Top 10 Artists by Date</h2>
-                <select id="dateSelect" class="form-control mb-3" onchange="updateChart()">
-                    <option value="">Select a date</option>
-                    {% for date in dates %}
-                        <option value="{{ date }}">{{ date }}</option>
-                    {% endfor %}
-                </select>
+                <h2 style="color: white; text-align: center;">Top 10 Artists by Date</h2>
+                <div class="text-center">
+                    <select id="dateSelect" class="form-control mb-3" onchange="updateChart()" style="width: 50%; margin: auto; background-color: #1DB954; color: white; border: none;">
+                        <option value="">Select a date</option>
+                        {% for date in dates %}
+                            <option value="{{ date }}">{{ date }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
                 <canvas id="topArtistsChart"></canvas>
                 <script>
                     const topArtistsData = {{ top_artists|tojson }};
@@ -65,15 +63,30 @@
                                     datasets: [{
                                         label: 'Number of Songs',
                                         data: data,
-                                        backgroundColor: 'rgba(54, 162, 235, 0.2)',
-                                        borderColor: 'rgba(54, 162, 235, 1)',
+                                        backgroundColor: 'rgba(29, 185, 84, 0.4)',  // Opacité ajustée
+                                        borderColor: 'rgba(29, 185, 84, 1)',
                                         borderWidth: 1
                                     }]
                                 },
                                 options: {
+                                    responsive: true,
                                     scales: {
                                         y: {
-                                            beginAtZero: true
+                                            beginAtZero: true,
+                                            ticks: {
+                                                color: 'white' // Axes en blanc
+                                            },
+                                            grid: {
+                                                color: 'black' // Quadrillage en noir
+                                            }
+                                        },
+                                        x: {
+                                            ticks: {
+                                                color: 'white' // Noms des musiques en blanc
+                                            },
+                                            grid: {
+                                                color: 'black' // Quadrillage en noir
+                                            }
                                         }
                                     }
                                 }
@@ -87,25 +100,24 @@
         <!-- Section pour afficher la moyenne des ItemInSession par niveau d'abonnement -->
         <div class="row mt-5">
             <div class="col-md-12">
-                <h2>Moyenne des ItemInSession par Niveau d'Abonnement</h2>
-                <table class="table table-bordered">
+                <h2 style="color: white; text-align: center;">Average ItemInSession by Subscription Level</h2>
+                <table class="table table-bordered" style="color: #1DB954; border-color: black; border-collapse: collapse;">
                     <thead>
-                        <tr>
-                            <th>Niveau d'Abonnement</th>
-                            <th>Moyenne des ItemInSession</th>
+                        <tr style="background-color: #1DB954; color: white;">
+                            <th style="border: none; text-align: center;">Subscription level</th>
+                            <th style="border: none; text-align: center;">Average ItemInSession</th>
                         </tr>
                     </thead>
                     <tbody>
                         {% for level, average in average_items_by_level.items() %}
-                        <tr>
-                            <td>{{ level }}</td>
-                            <td>{{ average | round(1) }}</td>  <!-- Arrondi à un chiffre après la virgule -->
+                        <tr style="background-color: black; border: none; color: white;">
+                            <td style="border: none; text-align: center;">{{ level }}</td>
+                            <td style="border: none; text-align: center;">{{ average | round(1) }}</td>  <!-- Arrondi à un chiffre après la virgule -->
                         </tr>
                         {% endfor %}
                     </tbody>
                 </table>
             </div>
         </div>
-        
     </div>
 {% endblock %}
