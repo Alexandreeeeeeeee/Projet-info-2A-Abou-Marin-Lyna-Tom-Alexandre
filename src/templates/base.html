@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -9,22 +10,28 @@
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 
+
     <title>Space Dynamic - SEO HTML5 Template</title>
+
 
     <!-- Bootstrap core CSS -->
     <link href="{{ url_for('static', filename='vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
-    
+
+
     <!-- Additional CSS Files -->
     <link rel="stylesheet" href="{{ url_for('static', filename='assets/css/fontawesome.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='assets/css/templatemo-space-dynamic.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='assets/css/animated.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='assets/css/owl.css') }}">
 
+
     <!-- TemplateMo 562 Space Dynamic -->
     <!-- https://templatemo.com/tm-562-space-dynamic -->
 </head>
 
+
 <body>
+
 
     <!-- ***** Preloader Start ***** -->
     <div id="js-preloader" class="js-preloader">
@@ -39,41 +46,45 @@
     </div>
     <!-- ***** Preloader End ***** -->
 
-    <!-- ***** Header Area Start ***** -->
-    <header class="header-area header-sticky wow slideInDown" data-wow-duration="0.75s" data-wow-delay="0s">
-        <div class="container">
-            <div class="row">
-                <div class="col-12">
-                    <nav class="main-nav">
-                        <!-- ***** Logo Start ***** -->
-                        <a href="index.html" class="logo">
-                            <h4>Spotify<span>Analytics</span></h4>
-                        </a>
-                        <!-- ***** Logo End ***** -->
-                        <!-- ***** Menu Start ***** -->
-                        <ul class="nav">
-                            <li class="scroll-to-section"><a href="{{ url_for('indexx') }}" class="active">Home</a></li>
-                            <li class="scroll-to-section"><a href="{{ url_for('index') }}">Users</a></li>
-                            <li class="scroll-to-section"><a href="{{ url_for('show_mapp') }}">Map</a></li>
-                            <li class="scroll-to-section"><a href="{{ url_for('spotify_analytics') }}">Spotify Analytics</a></li>
-                            <li class="scroll-to-section"><a href="{{ url_for('ask') }}">Ask me </a></li>
-                            <li class="scroll-to-section"><a href="#contact">Message Us</a></li>
-                            <li class="scroll-to-section"><div class="main-red-button"><a href="#contact">Contact Now</a></div></li>
-                        </ul>
-                        <a class='menu-trigger'>
-                            <span>Menu</span>
-                        </a>
-                        <!-- ***** Menu End ***** -->
-                    </nav>
-                </div>
-            </div>
-        </div>
-    </header>
-    <!-- ***** Header Area End ***** -->
 
+
+
+<!-- ***** Header Area Start ***** -->
+<header class="header-area" data-wow-duration="0.75s" data-wow-delay="0s" style="background-color:black;">
+    <div class="container" style="color: black;">
+      <div class="row" style="background-color: black" >
+        <div class="col-12" >
+          <nav class="main-nav" >
+            <!-- ***** Logo Start ***** -->
+            <a href="index.html" class="logo" style="background-color: black;">
+              <h4 style="color: #1DB954;">Spotify <span style="color: white;">Analytics</span></h4>
+            </a>
+            <!-- ***** Logo End ***** -->
+            <!-- ***** Menu Start ***** -->
+            <ul class="nav">
+              <li class="scroll-to-section"><a href="{{ url_for('indexx') }}" style="color: white;">Home</a></li>
+              <li class="scroll-to-section"><a href="{{ url_for('index') }}" style="color: white;">Users</a></li>
+              <li class="scroll-to-section"><a href="{{ url_for('show_map') }}" style="color: white;">Map</a></li>
+              <li class="scroll-to-section"><a href="{{ url_for('spotify_analytics') }}" style="color: white;">Analytics</a></li>
+              <li class="scroll-to-section"><a href="{{ url_for('ask') }}"  style="color: white;" >Ask me </a></li>
+
+
+              <li></li>
+           </ul>
+            <a class='menu-trigger'>
+                <span>Menu</span>
+            </a>
+            <!-- ***** Menu End ***** -->
+          </nav>
+        </div>
+      </div>
+    </div>
+  </header>
+  <!-- ***** Header Area End ***** -->
     {% block content %}
     {% endblock %}
-    
+
+
     <!-- Footer and Scripts -->
     <script src="{{ url_for('static', filename='vendor/jquery/jquery.min.js') }}"></script>
     <script src="{{ url_for('static', filename='vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
@@ -82,5 +93,6 @@
     <script src="{{ url_for('static', filename='assets/js/imagesloaded.js') }}"></script>
     <script src="{{ url_for('static', filename='assets/js/templatemo-custom.js') }}"></script>
 </body>
+
 
 </html>
