@@ -61,13 +61,4 @@ class SessionDAO:
         conn.close()
         return sessions
 
-    def calculate_average_session_duration(self):
-        with self.connection.cursor() as cursor:
-            try:
-                cursor.execute(
-                    "SELECT AVG(ts) FROM analytics_session"
-                )  # Supposons que 'ts' représente la durée
-                return cursor.fetchone()[0]  # Renvoie la durée moyenne des sessions
-            except Exception as e:
-                print(f"Erreur lors du calcul de la durée moyenne des sessions : {e}")
-                return 0  # Retourne 0 en cas d'erreur
+

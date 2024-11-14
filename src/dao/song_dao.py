@@ -36,55 +36,6 @@ class SongDAO:
         conn.close()
         return song
 
-    def count_songs(self):
-        with self.connection.cursor() as cursor:
-            cursor.execute("SELECT COUNT(*) FROM analytics_song")
-            return cursor.fetchone()[0]
-
-    def get_top_artists(self):
-        with self.connection.cursor() as cursor:
-            cursor.execute(
-                "SELECT artist, COUNT(*) as count FROM analytics_song GROUP BY artist ORDER BY count DESC LIMIT 5"
-            )
-            return cursor.fetchall()
-    
-    def get_top_artists_by_date(self):
-        # Ouvrir une connexion à la base de données
-        conn = get_connection()
-        cursor = conn.cursor()
-        
-        query = """
-        SELECT TO_CHAR(TO_TIMESTAMP(s."ts" / 1000), 'YYYY-MM-DD') AS session_date, 
-            a."artist", 
-            COUNT(a."songID") AS song_count
-        FROM public.analytics_session AS s
-        JOIN public.analytics_contenir AS c ON s."sessionID" = c."sessionID_id"
-        JOIN public.analytics_song AS a ON c."songID_id" = a."songID"
-        GROUP BY session_date, a."artist"
-        ORDER BY session_date DESC, song_count DESC;
-        """
-        
-        # Exécuter la requête
-        cursor.execute(query)
-        results = cursor.fetchall()
-
-        # Fermer le curseur et la connexion
-        cursor.close()
-        conn.close()
-
-        # Formater les résultats
-        formatted_results = []
-        for row in results:
-            session_date_str = row[0]  # Assumant que la date est la première colonne
-            artist = row[1]
-            song_count = row[2]
-
-            # Convertir la chaîne de date en datetime
-            session_date = datetime.strptime(session_date_str, '%Y-%m-%d')
-            formatted_results.append((session_date, artist, song_count))
-        
-        return formatted_results
-
 
 
     def get_all_song(self):

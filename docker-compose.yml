@@ -4,7 +4,7 @@ services:
     image: spotifanalytics/flask_spotify_app:1.0.0
     build: .
     ports:
-      - "5000:5000"
+      - "8000:8000"
     environment:
       - DB_URL=postgresql://postgres:postgres@flask_db:5432/postgres
       - DB_HOST=host.docker.internal

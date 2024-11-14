@@ -1,24 +1,11 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template
 from dao.utilisateur_dao import UtilisateurDAO
 from src.service.spotify_service import SpotifyService
-import folium
-import os
+from flask import request
 from src.service.openai_service import OpenaiService
-from src.service.openai_service import OpenaiService
-from flask_sqlalchemy import SQLAlchemy
-from flask_migrate import Migrate
-from os import environ
-#from main import interpret_question, execute_query
 
 
-
-
-app = Flask(__name__, static_folder='src/static', template_folder='src/templates')
-
-# Configuration de la base de données
-app.config['SQLALCHEMY_DATABASE_URI'] = environ.get('DB_URL')
-# Initialisation de la base de données et de la migration
-db = SQLAlchemy(app)
+app = Flask(__name__,static_folder='src/static' ,template_folder='src/templates')
 
 
 # Instance du service Spotify
