@@ -14,13 +14,13 @@ def import_utilisateurs():
         utilisateurs = json.load(f)
         for data in utilisateurs:
             utilisateur = Utilisateur(
-                userID=data['userID'],
-                lastName=data['lastName'],
-                firstName=data['firstName'],
+                user_id=data['user_id'],
+                last_name=data['last_name'],
+                first_name=data['first_name'],
                 gender=data['gender'],
                 registration=data['registration'],
                 city=data['city'],
-                zip=data['zip'],
+                zip_code=data['zip_code'],
                 state=data['state'],
                 lon=data['lon'],
                 lat=data['lat']
@@ -33,7 +33,7 @@ def import_songs():
         songs = json.load(file)
         for song_data in songs:
             song = Song(
-                songID=song_data['songID'],
+                song_id=song_data['song_id'],
                 song=song_data['song'],
                 artist=song_data['artist'],
                 duration=song_data['duration']
@@ -49,13 +49,13 @@ def import_sessions():
         sessions = json.load(file)
         for session_data in sessions:
             session = Session(
-                sessionID=session_data['sessionID'],
+                session_id=session_data['session_id'],
                 ts=session_data['ts'],
                 auth=session_data['auth'],
                 level=session_data['level'],
-                userAgent=session_data['userAgent'],
+                user_agent=session_data['user_agent'],
                 item_in_session=session_data['item_in_session'],
-                userID_id=session_data['userID_id']
+                user_id_id=session_data['user_id_id']
             )
             try:
                 session_dao.add_session(session)
@@ -68,9 +68,9 @@ def import_contenirs():
         contenirs = json.load(file)
         for contenir_data in contenirs:
             contenir = Contenir(
-                id=contenir_data['id'],
-                sessionID_id=contenir_data['sessionID_id'],
-                songID_id=contenir_data['songID_id']  # Utilisation correcte de songID_id
+                identifier=contenir_data['identifier'],
+                session_id=contenir_data['session_id'],
+                song_id=contenir_data['song_id']  # Utilisation correcte de songID_id
             )
             try:
                 contenir_dao.add_contenir(contenir)

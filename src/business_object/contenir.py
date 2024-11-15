@@ -1,23 +1,25 @@
-# business_object/contenir.py
-from business_object.session import SessionDAO
-from business_object.song import SongDAO
-
+"""
+Module contenant la classe Contenir, qui représente la relation entre une session et une chanson.
+"""
 
 class Contenir:
-    def __init__(self, id, sessionID_id, songID_id):
-        self.id = id
-        self.sessionID_id = sessionID_id
-        self.songID_id = songID_id
+    """Classe pour représenter le lien entre une session et une chanson."""
 
-    def get_session(self):
-        session_dao = SessionDAO()
-        return session_dao.get_user_by_id(self.sessionID_id)
+    def __init__(self, identifier, session_id, song_id):
+        """
+        Initialise une nouvelle instance de la classe Contenir.
 
-    def get_song(self):
-        song_dao = SongDAO()
-        return song_dao.get_song_by_id(self.songID_id)
+        :param identifier: ID unique pour la relation (auto-incrément).
+        :param session_id: ID de la session associée.
+        :param song_id: ID de la chanson associée.
+        """
+        self.identifier = identifier
+        self.session_id = session_id
+        self.song_id = song_id
 
-    def __str__(self):
-        song = self.get_song()
-        return f"Session ID {self.sessionID_id} contains song ID \
-    {self.songID_id}: {song.title} by {song.artist}"
+    def __repr__(self):
+        """Retourne une représentation en chaîne de caractères de l'objet Contenir."""
+        return (
+            f"Contenir(identifier={self.identifier}, "
+            f"session_id={self.session_id}, song_id={self.song_id})"
+        )

@@ -1,12 +1,18 @@
+import os
 from dao.db_connection import get_connection
 from business_object.utilisateur import Utilisateur
+import psycopg2
 
 
 class UtilisateurDAO:
+    """Classe pour gérer les opérations CRUD sur les utilisateurs dans la base de données."""
+    
     def __init__(self):
+        """Initialise une nouvelle instance de la classe UtilisateurDAO."""
         self.connection = get_connection()
 
     def add_utilisateur(self, utilisateur):
+        """Ajoute un utilisateur à la base de données ou met à jour ses informations si l'utilisateur existe déjà."""
         conn = get_connection()
         cursor = conn.cursor()
         query = """
@@ -28,27 +34,28 @@ class UtilisateurDAO:
             cursor.execute(
                 query,
                 (
-                    utilisateur.userID,
-                    utilisateur.lastName,
-                    utilisateur.firstName,
+                    utilisateur.user_id,
+                    utilisateur.last_name,
+                    utilisateur.first_name,
                     utilisateur.gender,
                     utilisateur.lon,
                     utilisateur.lat,
                     utilisateur.city,
-                    utilisateur.zip,
+                    utilisateur.zip_code,
                     utilisateur.state,
                     utilisateur.registration,
                 ),
             )
             conn.commit()
-        except Exception as e:
-            print(f"Error inserting utilisateur: {e}")
+        except psycopg2.Error as e:
+            print(f"Erreur lors de l'insertion de l'utilisateur : {e}")
             conn.rollback()  # Annule la transaction en cas d'erreur
         finally:
             cursor.close()
             conn.close()
 
     def delete_all_users(self):
+        """Supprime tous les utilisateurs de la base de données."""
         conn = get_connection()
         cursor = conn.cursor()
         query = "DELETE FROM analytics_utilisateur"
@@ -58,22 +65,25 @@ class UtilisateurDAO:
         conn.close()
 
     def get_all_users(self):
+        """Récupère tous les utilisateurs de la base de données."""
         conn = get_connection()
         cursor = conn.cursor()
         query = "SELECT * FROM analytics_utilisateur"
         cursor.execute(query)
         rows = cursor.fetchall()
+        users = []
         if rows:
             users = [Utilisateur(*row) for row in rows]
         cursor.close()
         conn.close()
         return users
 
-    def get_user_by_id(self, userID):
+    def get_user_by_id(self, user_id):
+        """Récupère un utilisateur à partir de son ID."""
         conn = get_connection()
         cursor = conn.cursor()
         query = 'SELECT * FROM analytics_utilisateur WHERE "userID" = %s'
-        cursor.execute(query, (userID,))
+        cursor.execute(query, (user_id,))
         row = cursor.fetchone()
         user = None
         if row:
@@ -81,30 +91,3 @@ class UtilisateurDAO:
         cursor.close()
         conn.close()
         return user
-
-    def count_users(self):
-        with self.connection.cursor() as cursor:
-            cursor.execute("SELECT COUNT(*) FROM analytics_utilisateur")
-            res = cursor.fetchone()[0]
-            return res
-
-
-    def get_top_artists_by_date(self):
-        with self.connection.cursor() as cursor:
-            cursor.execute("""
-                SELECT 
-                    artist, 
-                    to_timestamp(ts / 1000) AS date, 
-                    COUNT(*) as count 
-                FROM 
-                    analytics_song 
-                JOIN 
-                    analytics_session ON analytics_session.sessionID = analytics_song.sessionID_id 
-                GROUP BY 
-                    artist, date 
-                ORDER BY 
-                    date DESC, count DESC 
-                LIMIT 10
-            """)
-            return cursor.fetchall()
-
