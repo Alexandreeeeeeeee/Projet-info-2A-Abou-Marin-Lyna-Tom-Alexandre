@@ -1,5 +1,5 @@
 # Base image
-FROM python:3.10
+FROM python:3.10-slim
 
 # Set the working directory
 WORKDIR /app
@@ -17,7 +17,7 @@ ENV PYTHONPATH=/app/src
 COPY .env /app/.env
 
 # Expose the application port
-EXPOSE 5000
+EXPOSE 8000
 
 # Command to start the app
-CMD ["flask", "run", "--host=0.0.0.0", "--port", "5000"]
+CMD ["flask", "run", "--host=0.0.0.0", "--port", "8000"]

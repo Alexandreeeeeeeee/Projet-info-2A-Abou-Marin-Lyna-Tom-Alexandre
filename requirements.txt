@@ -9,3 +9,5 @@ numpy==1.23.4
 Flask-Migrate==3.1.0  # or the latest version
 Flask-SQLAlchemy==2.5.1
 SQLAlchemy==1.4.47
+confluent_kafka
+SQLAlchemy

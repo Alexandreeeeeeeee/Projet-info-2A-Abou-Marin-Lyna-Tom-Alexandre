@@ -1,12 +1,15 @@
 from flask import Flask, render_template
 from dao.utilisateur_dao import UtilisateurDAO
-from src.service.spotify_service import SpotifyService
+from service.spotify_service import SpotifyService
 from flask import request
-from src.service.openai_service import OpenaiService
-
-
+from service.openai_service import OpenaiService
+#from flask_sqlalchemy import SQLAlchemy
+from os import environ
 app = Flask(__name__,static_folder='src/static' ,template_folder='src/templates')
 
+
+#app.config['SQLALCHEMY_DATABASE_URI']=environ.get('DB_URL')
+#db = SQLAlchemy(app) 
 
 # Instance du service Spotify
 spotify_service = SpotifyService()

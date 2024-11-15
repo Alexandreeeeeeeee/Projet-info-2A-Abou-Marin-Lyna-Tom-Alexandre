@@ -1,27 +1,50 @@
+version: '3.8'
+
 services:
   flask_app:
     container_name: flask_app
-    image: spotifanalytics/flask_spotify_app:1.0.0
-    build: .
+    build:
+      context: .
+      dockerfile: Dockerfile
     ports:
       - "8000:8000"
     environment:
       - DB_URL=postgresql://postgres:postgres@flask_db:5432/postgres
-      - DB_HOST=host.docker.internal
     depends_on:
       - flask_db
+      - kafka_consumer
 
   flask_db:
     container_name: flask_db
     image: postgres:17
     ports:
-      - "5433:5432"  # Adjusted port on host
+      - "5433:5432"
     environment:
       - POSTGRES_PASSWORD=postgres
       - POSTGRES_USER=postgres
       - POSTGRES_DB=postgres
     volumes:
       - pgdata:/var/lib/postgresql/data
+      - ./data:/docker-entrypoint-initdb.d
+
+  kafka_consumer:
+    container_name: kafka_consumer
+    build:
+      context: .
+      dockerfile: Dockerfile.consumer
+    depends_on:
+      - flask_db
+    environment:
+      - KAFKA_TOPIC=listen_events
+      - KAFKA_CONFIG_FILE=/app/config/client.properties
+      - DB_HOST=flask_db
+      - DB_PORT=5432
+      - DB_NAME=postgres
+      - DB_USER=postgres
+      - DB_PASSWORD=postgres
+    volumes:
+      - ./client.properties:/app/config/client.properties
+      - ./consumer.py:/app/consumer.py
 
 volumes:
   pgdata: {}

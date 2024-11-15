@@ -1,0 +1,17 @@
+# Dockerfile.consumer
+
+FROM python:3.10-slim
+
+# Set the working directory
+WORKDIR /app
+
+# Copy the necessary files
+COPY requirements.txt requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Copy the consumer script and configuration file
+COPY consumer.py consumer.py
+COPY client.properties client.properties
+
+# Command to start the consumer script
+CMD ["python", "consumer.py"]
