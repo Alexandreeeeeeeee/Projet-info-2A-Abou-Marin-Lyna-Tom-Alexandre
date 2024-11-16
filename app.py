@@ -1,26 +1,30 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request
 from dao.utilisateur_dao import UtilisateurDAO
 from service.spotify_service import SpotifyService
-from flask import request
 from service.openai_service import OpenaiService
+import os
 #from flask_sqlalchemy import SQLAlchemy
-from os import environ
-app = Flask(__name__,static_folder='src/static' ,template_folder='src/templates')
 
+app = Flask(__name__, static_folder='src/static', template_folder='src/templates')
 
 #app.config['SQLALCHEMY_DATABASE_URI']=environ.get('DB_URL')
-#db = SQLAlchemy(app) 
+#db = SQLAlchemy(app)
 
 # Instance du service Spotify
 spotify_service = SpotifyService()
 utilisateur_dao = UtilisateurDAO()
+openai_service = OpenaiService()
 
-@app.route('/indexx')
+
+@app.route('/')
 def indexx():
+    """Affiche la page d'accueil."""
     return render_template('indexx.html')
 
-@app.route("/", methods=["GET"])
+
+@app.route("/users", methods=["GET"])
 def index():
+    """Affiche la liste paginée des utilisateurs."""
     page = request.args.get("page", 1, type=int)
     per_page = 10
 
@@ -40,23 +44,17 @@ def index():
         per_page=per_page,
     )
 
-@app.route("/map")
-def show_map():
-    service.create_user_map()  # Crée la carte avec les utilisateurs
-    return render_template("map.html")  # Affiche la carte
-
-
-
 
 @app.route('/mapp')
 def show_mapp():
+    """Affiche la carte avec les positions des utilisateurs."""
     user_locations = spotify_service.get_user_coordinates()  # Récupérer les coordonnées des utilisateurs
     return render_template('map_content.html', user_locations=user_locations)
 
-openai_service = OpenaiService()
 
 @app.route('/ask', methods=['GET', 'POST'])
 def ask():
+    """Affiche et gère le formulaire de requête SQL via OpenAI."""
     if request.method == 'POST':
         question = request.form.get('question')
         sql_query = openai_service.interpret_question(question)
@@ -71,19 +69,18 @@ def ask():
     return render_template('ask.html')
 
 
-
-
-
-
-
 @app.route("/spotify_analytics")
 def spotify_analytics():
+    """Affiche les analyses Spotify."""
     total_songs = spotify_service.get_total_songs()
     total_users = spotify_service.get_total_users()
     average_duration = spotify_service.get_average_session_duration()
     top_artists_by_date = spotify_service.get_top_artists_by_date()
-    average_items_by_level = spotify_service.get_average_item_in_session_by_level()  # Ajout de la moyenne des items par niveau
-    
+    most_active_users = spotify_service.get_most_active_users()
+    activity_peaks = spotify_service.get_activity_peak_times()
+    demographics_data = spotify_service.get_user_demographics()
+    longest_sessions = spotify_service.get_longest_sessions(top_n=5)
+
     # Extraire les dates distinctes et les artistes top pour chaque date
     dates = sorted(set(date.strftime('%Y-%m-%d') for date, artist, count in top_artists_by_date))
     top_artists = {
@@ -98,9 +95,14 @@ def spotify_analytics():
         average_duration=average_duration,
         top_artists=top_artists,
         top_artists_by_date=top_artists_by_date,
-        average_items_by_level = spotify_service.get_average_item_in_session_by_level(),
+        average_items_by_level=spotify_service.get_average_item_in_session_by_level(),
+        most_active_users=most_active_users,
+        activity_peaks=activity_peaks,
+        gender_stats=demographics_data["gender"], 
+        longest_sessions=longest_sessions,
         dates=dates
     )
+
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=5000, debug=True)

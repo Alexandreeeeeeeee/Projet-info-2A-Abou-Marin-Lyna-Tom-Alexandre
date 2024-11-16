@@ -106,3 +106,87 @@ class SpotifyService:
             print("Coordonnées des utilisateurs :", coordinates)
 
         return coordinates
+
+    def get_most_active_users(self, top_n=10):
+        """Retourne les utilisateurs les plus actifs."""
+        query = """
+        SELECT u."userID", u."firstName", u."lastName", COUNT(s."sessionID") AS session_count
+        FROM public.analytics_utilisateur AS u
+        JOIN public.analytics_session AS s ON u."userID" = s."userID_id"
+        GROUP BY u."userID", u."firstName", u."lastName"
+        ORDER BY session_count DESC
+        LIMIT %s;
+        """
+        with get_connection() as conn, conn.cursor() as cursor:
+            cursor.execute(query, (top_n,))
+            results = cursor.fetchall()
+    
+        return [{"userID": row[0], "name": f"{row[1]} {row[2]}", "sessions": row[3]} for row in results]
+
+    def get_activity_peak_times(self):
+        """Analyse les pics d'activité par heure et par jour."""
+        query = """
+        SELECT TO_CHAR(TO_TIMESTAMP(s."ts" / 1000), 'HH24') AS hour, COUNT(*) AS activity_count
+        FROM public.analytics_session AS s
+        GROUP BY hour
+        ORDER BY activity_count DESC;
+        """
+        with get_connection() as conn, conn.cursor() as cursor:
+            cursor.execute(query)
+            hourly_activity = cursor.fetchall()
+
+        query = """
+        SELECT TO_CHAR(TO_TIMESTAMP(s."ts" / 1000), 'DY') AS day, COUNT(*) AS activity_count
+        FROM public.analytics_session AS s
+        GROUP BY day
+        ORDER BY activity_count DESC;
+        """
+        with get_connection() as conn, conn.cursor() as cursor:
+            cursor.execute(query)
+            daily_activity = cursor.fetchall()
+
+        return {
+            "hourly": [{"hour": row[0], "count": row[1]} for row in hourly_activity],
+            "daily": [{"day": row[0], "count": row[1]} for row in daily_activity],
+        }
+
+    def get_user_demographics(self):
+        """Retourne les statistiques par genre."""
+        query = """
+        SELECT gender, COUNT(*) AS user_count
+        FROM public.analytics_utilisateur
+        GROUP BY gender;
+        """
+        with get_connection() as conn, conn.cursor() as cursor:
+            cursor.execute(query)
+            gender_stats = cursor.fetchall()
+
+        return {
+            "gender": {row[0]: row[1] for row in gender_stats},
+        }
+
+    def get_longest_sessions(self, top_n=5):
+        """Retourne les sessions les plus longues."""
+        query = """
+        SELECT s."sessionID", u."firstName", u."lastName", s."ts", COUNT(c."songID_id") AS song_count
+        FROM public.analytics_session AS s
+        JOIN public.analytics_utilisateur AS u ON s."userID_id" = u."userID"
+        JOIN public.analytics_contenir AS c ON s."sessionID" = c."sessionID_id"
+        GROUP BY s."sessionID", u."firstName", u."lastName", s."ts"
+        ORDER BY song_count DESC
+        LIMIT %s;
+        """
+        with get_connection() as conn, conn.cursor() as cursor:
+            cursor.execute(query, (top_n,))
+            results = cursor.fetchall()
+
+        return [
+            {
+                "sessionID": row[0],
+                "user": f"{row[1]} {row[2]}",
+                "timestamp": row[3],
+                "song_count": row[4],
+            }
+            for row in results
+        ]
+

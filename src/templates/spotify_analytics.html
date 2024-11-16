@@ -42,7 +42,7 @@
                 </div>
                 <canvas id="topArtistsChart"></canvas>
                 <script>
-                    const topArtistsData = {{ top_artists|tojson }};
+                    const topArtistsData = {{ top_artists|tojson }}; 
                     const ctx = document.getElementById('topArtistsChart').getContext('2d');
                     let myChart;
 
@@ -100,7 +100,7 @@
         <!-- Section pour afficher la moyenne des ItemInSession par niveau d'abonnement -->
         <div class="row mt-5">
             <div class="col-md-12">
-                <h2 style="color: white; text-align: center;">Average ItemInSession by Subscription Level</h2>
+                <h2 style="color: white; text-align: center;">Average Number of Songs Played per Session by Subscription Level</h2>
                 <table class="table table-bordered" style="color: #1DB954; border-color: black; border-collapse: collapse;">
                     <thead>
                         <tr style="background-color: #1DB954; color: white;">
@@ -110,10 +110,99 @@
                     </thead>
                     <tbody>
                         {% for level, average in average_items_by_level.items() %}
-                        <tr style="background-color: black; border: none; color: white;">
-                            <td style="border: none; text-align: center;">{{ level }}</td>
-                            <td style="border: none; text-align: center;">{{ average | round(1) }}</td>  <!-- Arrondi à un chiffre après la virgule -->
+                            <tr style="background-color: black; border: none; color: white;">
+                                <td style="border: none; text-align: center;">{{ level }}</td>
+                                <td style="border: none; text-align: center;">{{ average | round(1) }}</td>  <!-- Arrondi à un chiffre après la virgule -->
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Section pour afficher les utilisateurs les plus actifs -->
+        <div class="row mt-5">
+            <div class="col-md-12">
+                <h2 style="color: white; text-align: center;">Most Active Users</h2>
+                <table class="table table-bordered" style="color: #1DB954; border-color: black; border-collapse: collapse;">
+                    <thead>
+                        <tr style="background-color: #1DB954; color: white;">
+                            <th style="border: none; text-align: center;">User ID</th>
+                            <th style="border: none; text-align: center;">Name</th>
+                            <th style="border: none; text-align: center;">Session Count</th>
                         </tr>
+                    </thead>
+                    <tbody>
+                        {% for user in most_active_users %}
+                            <tr style="background-color: black; border: none; color: white;">
+                                <td style="border: none; text-align: center;">{{ user.userID }}</td>
+                                <td style="border: none; text-align: center;">{{ user.name }}</td>
+                                <td style="border: none; text-align: center;">{{ user.sessions }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="row mt-5">
+            <div class="col-md-12">
+                <h2 style="color: white; text-align: center;">Activity Peaks by Hour</h2>
+                <canvas id="hourlyActivityChart"></canvas>
+            </div>
+        </div>
+        <script>
+            const hourlyData = {{ activity_peaks.hourly|tojson }};
+            const hours = hourlyData.map(a => a.hour);
+            const counts = hourlyData.map(a => a.count);
+
+            const hourlyCtx = document.getElementById('hourlyActivityChart').getContext('2d');
+            new Chart(hourlyCtx, {
+                type: 'line',
+                data: {
+                    labels: hours,
+                    datasets: [{
+                        label: 'Activity Count',
+                        data: counts,
+                        backgroundColor: 'rgba(29, 185, 84, 0.2)',
+                        borderColor: 'rgba(29, 185, 84, 1)',
+                        borderWidth: 2,
+                        fill: true,
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        x: {
+                            ticks: { color: 'white' },
+                            grid: { color: 'black' }
+                        },
+                        y: {
+                            ticks: { color: 'white' },
+                            grid: { color: 'black' },
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        </script>
+
+        <div class="row mt-5">
+            <div class="col-md-12">
+                <h2 style="color: white; text-align: center;">Activity Peaks by Day</h2>
+                <table class="table table-bordered" style="color: #1DB954; border-color: black; border-collapse: collapse;">
+                    <thead>
+                        <tr style="background-color: #1DB954; color: white;">
+                            <th style="text-align: center; border: none;">Day</th>
+                            <th style="text-align: center; border: none;">Activity Count</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for day in activity_peaks.daily %}
+                            <tr style="background-color: black; color: white; border: none;">
+                                <td style="text-align: center; border: none;">{{ day.day }}</td>
+                                <td style="text-align: center; border: none;">{{ day.count }}</td>
+                            </tr>
                         {% endfor %}
                     </tbody>
                 </table>
