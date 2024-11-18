@@ -6,6 +6,7 @@ from dao.utilisateur_dao import UtilisateurDAO
 from dao.song_dao import SongDAO
 from dao.session_dao import SessionDAO
 from dao.db_connection import get_connection
+from dao.contenir_dao import ContenirDAO
 
 class SpotifyService:
     """Service pour gérer les opérations liées à Spotify Analytics."""
@@ -15,24 +16,7 @@ class SpotifyService:
         self.utilisateur_dao = UtilisateurDAO()
         self.song_dao = SongDAO()
         self.session_dao = SessionDAO()
-
-    def create_user_map(self):
-        """Crée une carte avec les utilisateurs marqués à leurs coordonnées."""
-        utilisateurs = self.utilisateur_dao.get_all_users()
-        m = folium.Map(location=[37.0902, -95.7129], zoom_start=4)
-
-        for utilisateur in utilisateurs:
-            folium.Marker(
-                location=[utilisateur.lat, utilisateur.lon],
-                popup=f"{utilisateur.firstName} {utilisateur.lastName}",
-            ).add_to(m)
-
-        m.save("src/templates/map.html")
-
-    def get_user_locations(self):
-        """Retourne la liste des villes et états des utilisateurs."""
-        utilisateurs = self.utilisateur_dao.get_all_users()
-        return [(utilisateur.city, utilisateur.state) for utilisateur in utilisateurs]
+        self.contenir_dao = ContenirDAO()
 
     def get_total_songs(self):
         """Retourne le nombre total de chansons dans la base de données."""
@@ -52,10 +36,6 @@ class SpotifyService:
             cursor.execute("SELECT AVG(ts) FROM analytics_session")
             return cursor.fetchone()[0]
 
-    def get_top_artists(self):
-        """Retourne les artistes les plus populaires."""
-        return self.song_dao.get_top_artists()
-
     def get_top_artists_by_date(self):
         """Retourne les artistes les plus populaires par date."""
         query = """
@@ -67,14 +47,15 @@ class SpotifyService:
         GROUP BY session_date, a."artist"
         ORDER BY session_date DESC, song_count DESC;
         """
-        results = []
-        with get_connection() as conn, conn.cursor() as cursor:
+        with self.session_dao.connection.cursor() as cursor:
             cursor.execute(query)
             results = cursor.fetchall()
 
+        # Transformation des résultats pour inclure les dates formatées
         return [
             (datetime.strptime(row[0], '%Y-%m-%d'), row[1], row[2]) for row in results
         ]
+
 
     def get_average_item_in_session_by_level(self):
         """Retourne la moyenne des éléments par session, groupée par niveau d'abonnement."""
@@ -84,11 +65,13 @@ class SpotifyService:
         GROUP BY s.level
         ORDER BY s.level;
         """
-        with get_connection() as conn, conn.cursor() as cursor:
+        # Utilisation du DAO Session pour exécuter la requête
+        with self.session_dao.connection.cursor() as cursor:
             cursor.execute(query)
             results = cursor.fetchall()
-        
+
         return {row[0]: row[1] for row in results}
+
 
     def get_user_coordinates(self, debug=False):
         """Retourne les coordonnées des utilisateurs.
@@ -97,15 +80,16 @@ class SpotifyService:
             debug (bool): Si vrai, imprime les coordonnées pour déboguer.
         """
         query = "SELECT lat, lon FROM analytics_utilisateur WHERE lat IS NOT NULL AND lon IS NOT NULL"
-        
-        with get_connection() as conn, conn.cursor() as cursor:
+    
+        with self.utilisateur_dao.connection.cursor() as cursor:
             cursor.execute(query)
             coordinates = cursor.fetchall()
-        
+    
         if debug:
             print("Coordonnées des utilisateurs :", coordinates)
 
         return coordinates
+
 
     def get_most_active_users(self, top_n=10):
         """Retourne les utilisateurs les plus actifs."""
@@ -117,38 +101,40 @@ class SpotifyService:
         ORDER BY session_count DESC
         LIMIT %s;
         """
-        with get_connection() as conn, conn.cursor() as cursor:
+        with self.utilisateur_dao.connection.cursor() as cursor:
             cursor.execute(query, (top_n,))
             results = cursor.fetchall()
-    
+
         return [{"userID": row[0], "name": f"{row[1]} {row[2]}", "sessions": row[3]} for row in results]
+
 
     def get_activity_peak_times(self):
         """Analyse les pics d'activité par heure et par jour."""
-        query = """
+        query_hourly = """
         SELECT TO_CHAR(TO_TIMESTAMP(s."ts" / 1000), 'HH24') AS hour, COUNT(*) AS activity_count
         FROM public.analytics_session AS s
         GROUP BY hour
         ORDER BY activity_count DESC;
         """
-        with get_connection() as conn, conn.cursor() as cursor:
-            cursor.execute(query)
+        with self.session_dao.connection.cursor() as cursor:
+            cursor.execute(query_hourly)
             hourly_activity = cursor.fetchall()
 
-        query = """
+        query_daily = """
         SELECT TO_CHAR(TO_TIMESTAMP(s."ts" / 1000), 'DY') AS day, COUNT(*) AS activity_count
         FROM public.analytics_session AS s
         GROUP BY day
         ORDER BY activity_count DESC;
         """
-        with get_connection() as conn, conn.cursor() as cursor:
-            cursor.execute(query)
+        with self.session_dao.connection.cursor() as cursor:
+            cursor.execute(query_daily)
             daily_activity = cursor.fetchall()
 
         return {
             "hourly": [{"hour": row[0], "count": row[1]} for row in hourly_activity],
             "daily": [{"day": row[0], "count": row[1]} for row in daily_activity],
         }
+
 
     def get_user_demographics(self):
         """Retourne les statistiques par genre."""
@@ -157,13 +143,14 @@ class SpotifyService:
         FROM public.analytics_utilisateur
         GROUP BY gender;
         """
-        with get_connection() as conn, conn.cursor() as cursor:
+        with self.utilisateur_dao.connection.cursor() as cursor:
             cursor.execute(query)
             gender_stats = cursor.fetchall()
 
         return {
             "gender": {row[0]: row[1] for row in gender_stats},
         }
+
 
     def get_longest_sessions(self, top_n=5):
         """Retourne les sessions les plus longues."""
@@ -176,7 +163,8 @@ class SpotifyService:
         ORDER BY song_count DESC
         LIMIT %s;
         """
-        with get_connection() as conn, conn.cursor() as cursor:
+        # Utilisation du DAO pour la connexion et l'exécution de la requête
+        with self.session_dao.connection.cursor() as cursor:
             cursor.execute(query, (top_n,))
             results = cursor.fetchall()
 
@@ -189,4 +177,3 @@ class SpotifyService:
             }
             for row in results
         ]
-
