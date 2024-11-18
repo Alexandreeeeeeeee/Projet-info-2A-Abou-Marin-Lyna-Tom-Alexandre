@@ -2,12 +2,14 @@ import psycopg2
 from dao.db_connection import get_connection
 from business_object.contenir import Contenir
 
-
-# Module docstring
 """Module pour la gestion des opérations CRUD sur la table 'contenir' dans la base de données PostgreSQL."""
 
 class ContenirDAO:
     """Classe pour gérer les opérations CRUD sur la table 'contenir' dans la base de données."""
+
+    def __init__(self):
+        """Initialise une instance de la classe avec une connexion à la base de données."""
+        self.connection = get_connection()  # Initialisation de la connexion
 
     def add_contenir(self, contenir):
         """
@@ -15,8 +17,7 @@ class ContenirDAO:
         
         :param contenir: Instance de la classe Contenir contenant les données à insérer.
         """
-        conn = get_connection()
-        cursor = conn.cursor()
+        cursor = self.connection.cursor()
         query = """
             INSERT INTO analytics_contenir ("sessionID_id", "songID_id")
             VALUES (%s, %s)
@@ -26,30 +27,27 @@ class ContenirDAO:
                 contenir.session_id,
                 contenir.song_id
             ))
-            conn.commit()
+            self.connection.commit()
         except psycopg2.Error as e:
             print(f"Erreur lors de l'insertion de contenir : {e}")
-            conn.rollback()  # Annule la transaction en cas d'erreur
+            self.connection.rollback()  # Annule la transaction en cas d'erreur
         finally:
             cursor.close()
-            conn.close()
 
     def delete_all_contenirs(self):
         """
         Supprime toutes les lignes de la table 'contenir'.
         """
-        conn = get_connection()
-        cursor = conn.cursor()
+        cursor = self.connection.cursor()
         query = "DELETE FROM analytics_contenir"
         try:
             cursor.execute(query)
-            conn.commit()
+            self.connection.commit()
         except psycopg2.Error as e:
             print(f"Erreur lors de la suppression des contenus : {e}")
-            conn.rollback()  # Annule la transaction en cas d'erreur
+            self.connection.rollback()  # Annule la transaction en cas d'erreur
         finally:
             cursor.close()
-            conn.close()
 
     def get_all_contenirs(self):
         """
@@ -57,12 +55,10 @@ class ContenirDAO:
         
         :return: Liste d'instances de la classe Contenir correspondant aux lignes récupérées.
         """
-        conn = get_connection()
-        cursor = conn.cursor()
+        cursor = self.connection.cursor()
         query = "SELECT * FROM analytics_contenir"
         cursor.execute(query)
         rows = cursor.fetchall()
         contenirs = [Contenir(*row) for row in rows] if rows else []
         cursor.close()
-        conn.close()
         return contenirs
