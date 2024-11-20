@@ -29,6 +29,9 @@ def handle_exception(e):
     """Gestion des erreurs générales."""
     return render_template("error.html", error_message=str(e)), 500
 
+@app.route('/test_404')
+def test_404():
+    return render_template("404.html")
 
 @app.route('/')
 def indexx():
