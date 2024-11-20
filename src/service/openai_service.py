@@ -1,5 +1,5 @@
 import openai
-from dao.db_connection import get_connection  # Importer get_connection
+from dao.db_connection import get_connection
 from dotenv import load_dotenv
 import os
 
@@ -12,7 +12,6 @@ openai.api_key = os.getenv("OPENAI_API_KEY")
 
 class OpenaiService:
     def __init__(self):
-        # Vous pouvez ajouter d'autres initialisations si nécessaire
         pass
 
     def interpret_question(self, question):
@@ -38,7 +37,7 @@ class OpenaiService:
         WHERE gender = 'F';
 
         exemple pour nombre totale des hommes :
-        SELECT COUNT(*) 
+        SELECT COUNT(*)
         FROM public.analytics_utilisateur
         WHERE gender = 'M';
 
@@ -60,20 +59,23 @@ class OpenaiService:
             response = openai.ChatCompletion.create(
                 model="gpt-3.5-turbo",
                 messages=[
-                    {"role": "system", "content": "You are an assistant who helps generate SQL queries."},
-                    {"role": "user", "content": prompt}
+                    {
+                        "role": "system",
+                        "content": "You are an assistant who helps generate SQL queries.",
+                    },
+                    {"role": "user", "content": prompt},
                 ],
                 max_tokens=150,
                 n=1,
-                temperature=0
+                temperature=0,
             )
-            return response['choices'][0]['message']['content'].strip()
+            return response["choices"][0]["message"]["content"].strip()
         except Exception as e:
             print(f"Erreur lors de l'appel à l'API OpenAI : {e}")
             return None
 
     def execute_query(self, query):
-        connection = get_connection()  # Utiliser get_connection pour obtenir la connexion
+        connection = get_connection()
         if connection is None:
             return None
 
