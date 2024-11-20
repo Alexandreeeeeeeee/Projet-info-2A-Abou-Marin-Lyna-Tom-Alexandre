@@ -11,6 +11,7 @@ Spotify Analytics est une application permettant à des companies, des maisons d
 - [Visual Studio Code](https://code.visualstudio.com/)
 - [Python 3.10](https://www.python.org/)
 - [PostgreSQL](https://www.postgresql.org/)
+- [Docker](https://www.docker.com/)
 
 ---
 
@@ -72,42 +73,21 @@ OPEN_API_KEY=sk-proj-63d5n15RLPJysk4gEa8uT3BlbkFJGs4OWoLxKS6C5vMjah5
 
 ---
 
-## :arrow_forward: Lancez les tests unitaires
-
-Dans le terminal :
-
-- `python -m pytest -v`
-
----
-
-## :arrow_forward: Les logs (À ENLEVER ?)
-
-L'initalisation se fait dans le module `src/utils/log_init.py` :
-
-- Celui-ci est appelé au démarrage de l'application ou du webservice
-- Il utilise le fichier `logging_config.yml` pour la configuration
-  - pour modifier le niveau de logs :arrow_right: balise *level*
-
-Un décorateur a été créé dans `src/utils/log_decorator.py`.
-
-Appliqué à une méthode, il permettra d'afficher dans les logs :
-
-- les paramétres d'entrée
-- la sortie
-
-Les logs sont consultables dans le dossier `logs`.
-
----
-
 ## :arrow_forward: Utilisez l'application
 
-### Lancez l'application (À MODIFIER)
+### Lancez l'application
 
-Vous pouvez maintenant lancer l'application, le webservice ou les tests unitaires
+Avec VSCode : (EST-CE IMPORTANT DE FAIRE ```python main.py``` ?)
 
-- `python src/__main__.py` (puis commencez par ré-initialiser la bdd)
-- `python src/app.py` (à tester)
-- `pytest -v`
+- [ ] Dans le terminal, exécuter ```python main.py```
+- [ ] Exécuter ```python app.py```
+
+Avec Docker : (Où METTRE L'INFO LOCALHOST:8000 ?)
+
+- [ ] Dans le logiciel Docker, exécuter ```docker compose up --build``` puis attendre que l'installation se termine
+- [ ] 2 possibilités :
+  - Lancer le conteneur
+  - exécuter ```docker compose up -d flask_app```
 
 ### Lancez les services
 
