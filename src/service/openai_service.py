@@ -18,10 +18,13 @@ class OpenaiService:
         # Instructions spécifiques sur la base de données
         table_info = """
         La base de données contient les tables suivantes :
-        - Table 'analytics_utilisateur' : contient les colonnes "userID", "lastName", "firstName", "gender", "lon", "lat", "city", "zip", "state", "registration".
+        - Table 'analytics_utilisateur' : contient les colonnes "userID", "lastName", "firstName", "gender", "lon", "lat", "city", 
+        "zip", "state", "registration".
         - Table 'analytics_song' : contient les colonnes "songID", "song", "artist", "duration".
-        - Table 'analytics_session' : contient les colonnes "sessionID", "ts", "auth", "level", "userAgent", "item_in_session", "userID_id" (clé étrangère vers analytics_utilisateur).
-        - Table 'analytics_contenir' : contient les colonnes "id", "sessionID_id" (clé étrangère vers analytics_session), "songID_id" (clé étrangère vers analytics_song).
+        - Table 'analytics_session' : contient les colonnes "sessionID", "ts", "auth", "level", "userAgent", "item_in_session", 
+        "userID_id" (clé étrangère vers analytics_utilisateur).
+        - Table 'analytics_contenir' : contient les colonnes "id", "sessionID_id" (clé étrangère vers analytics_session), 
+        "songID_id" (clé étrangère vers analytics_song).
 
         exemple de jointure :
         SELECT DISTINCT u."userID", u."firstName", u."lastName"
@@ -45,8 +48,8 @@ class OpenaiService:
         - Un utilisateur (analytics_utilisateur) peut participer à plusieurs sessions (analytics_session).
         - Une session peut contenir plusieurs chansons (analytics_contenir), et chaque chanson est liée à un artiste dans la table analytics_song.
 
-        execute le requettes sql tu es connectee avec la base de donnes retrourne direcement le resultats et sans utiliser de formatage ou de balises Markdown. Ne donne aucune explication.
-        et commentes le resultats en quelques lignes
+        execute le requettes sql tu es connectee avec la base de donnes retrourne direcement le resultats et sans utiliser de formatage 
+        ou de balises Markdown. Ne donne aucune explication et commentes le resultats en quelques lignes
 
         N'inclut aucun formatage, balise Markdown ou d'explication et commentes le resultats en quelques lignes.
         avec toutes ces information fais effort de bien executer les code sql.
