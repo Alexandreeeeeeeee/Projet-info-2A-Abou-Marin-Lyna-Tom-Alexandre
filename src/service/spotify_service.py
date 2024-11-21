@@ -7,6 +7,7 @@ from dao.song_dao import SongDAO
 from dao.session_dao import SessionDAO
 from dao.db_connection import get_connection
 from dao.contenir_dao import ContenirDAO
+from business_object.utilisateur import Utilisateur
 
 class SpotifyService:
     """Service pour gérer les opérations liées à Spotify Analytics."""
@@ -90,23 +91,40 @@ class SpotifyService:
 
         return coordinates
 
-
     def get_most_active_users(self, top_n=10):
         """Retourne les utilisateurs les plus actifs."""
         query = """
-        SELECT u."userID", u."firstName", u."lastName", COUNT(s."sessionID") AS session_count
-        FROM public.analytics_utilisateur AS u
-        JOIN public.analytics_session AS s ON u."userID" = s."userID_id"
-        GROUP BY u."userID", u."firstName", u."lastName"
-        ORDER BY session_count DESC
-        LIMIT %s;
+            SELECT u."userID", u."firstName", u."lastName", COUNT(s."sessionID") AS session_count
+            FROM public.analytics_utilisateur AS u
+            JOIN public.analytics_session AS s
+            ON u."userID" = s."userID_id"
+            GROUP BY u."userID", u."firstName", u."lastName"
+            ORDER BY session_count DESC
+            LIMIT %s;
         """
         with self.utilisateur_dao.connection.cursor() as cursor:
             cursor.execute(query, (top_n,))
             results = cursor.fetchall()
-
-        return [{"userID": row[0], "name": f"{row[1]} {row[2]}", "sessions": row[3]} for row in results]
-
+            active_users = []
+            for row in results:
+                user = Utilisateur(
+                    user_id=row[0],
+                    first_name=row[1],
+                    last_name=row[2],
+                    gender=None,  # Ces informations ne sont pas nécessaires pour cette fonction
+                    lon=None,
+                    lat=None,
+                    city=None,
+                    zip_code=None,
+                    state=None,
+                    registration=None
+                )
+                active_users.append({
+                    "userID": user.user_id,
+                    "name": f"{user.first_name} {user.last_name}",
+                    "sessions": row[3]
+                })
+            return active_users
 
     def get_activity_peak_times(self):
         """Analyse les pics d'activité par heure et par jour."""

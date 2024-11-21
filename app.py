@@ -106,7 +106,7 @@ def spotify_analytics():
         total_users = spotify_service.get_total_users()
         average_duration = spotify_service.get_average_session_duration()
         top_artists_by_date = spotify_service.get_top_artists_by_date()
-        most_active_users = spotify_service.get_most_active_users()
+        active_users = spotify_service.get_most_active_users()
         activity_peaks = spotify_service.get_activity_peak_times()
         demographics_data = spotify_service.get_user_demographics()
         longest_sessions = spotify_service.get_longest_sessions(top_n=5)
@@ -126,7 +126,7 @@ def spotify_analytics():
             top_artists=top_artists,
             top_artists_by_date=top_artists_by_date,
             average_items_by_level=spotify_service.get_average_item_in_session_by_level(),
-            most_active_users=most_active_users,
+            most_active_users=active_users,
             activity_peaks=activity_peaks,
             gender_stats=demographics_data["gender"], 
             longest_sessions=longest_sessions,

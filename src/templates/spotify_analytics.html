@@ -10,6 +10,7 @@
             <p style="font-size: 1.2rem; color: white; font-weight: bold">Get insights into your Spotify data</p>
         </div>
 
+        <!-- Total Songs and Total Users Section -->
         <div class="row justify-content-center mb-4">
             <div class="col-md-4">
                 <div class="card text-white" style="background-color: #1DB954;">
@@ -29,6 +30,7 @@
             </div>
         </div>
 
+        <!-- Top Artists by Date Section -->
         <div class="row mt-5">
             <div class="col-md-12">
                 <h2 style="color: white; text-align: center;">Top 10 Artists by Date</h2>
@@ -49,7 +51,7 @@
                     function updateChart() {
                         const selectedDate = document.getElementById('dateSelect').value;
                         if (myChart) {
-                            myChart.destroy(); // Détruire l'ancien graphique si existant
+                            myChart.destroy(); // Destroy the previous chart if it exists
                         }
                         if (selectedDate) {
                             const artists = topArtistsData[selectedDate];
@@ -63,7 +65,7 @@
                                     datasets: [{
                                         label: 'Number of Songs',
                                         data: data,
-                                        backgroundColor: 'rgba(29, 185, 84, 0.4)',  // Opacité ajustée
+                                        backgroundColor: 'rgba(29, 185, 84, 0.4)',  // Adjusted opacity
                                         borderColor: 'rgba(29, 185, 84, 1)',
                                         borderWidth: 1
                                     }]
@@ -74,18 +76,18 @@
                                         y: {
                                             beginAtZero: true,
                                             ticks: {
-                                                color: 'white' // Axes en blanc
+                                                color: 'white' // White axis labels
                                             },
                                             grid: {
-                                                color: 'black' // Quadrillage en noir
+                                                color: 'black' // Black grid lines
                                             }
                                         },
                                         x: {
                                             ticks: {
-                                                color: 'white' // Noms des musiques en blanc
+                                                color: 'white' // White song names
                                             },
                                             grid: {
-                                                color: 'black' // Quadrillage en noir
+                                                color: 'black' // Black grid lines
                                             }
                                         }
                                     }
@@ -97,7 +99,7 @@
             </div>
         </div>
 
-        <!-- Section pour afficher la moyenne des ItemInSession par niveau d'abonnement -->
+        <!-- Average Number of Songs Played per Session by Subscription Level -->
         <div class="row mt-5">
             <div class="col-md-12">
                 <h2 style="color: white; text-align: center;">Average Number of Songs Played per Session by Subscription Level</h2>
@@ -112,7 +114,7 @@
                         {% for level, average in average_items_by_level.items() %}
                             <tr style="background-color: black; border: none; color: white;">
                                 <td style="border: none; text-align: center;">{{ level }}</td>
-                                <td style="border: none; text-align: center;">{{ average | round(1) }}</td>  <!-- Arrondi à un chiffre après la virgule -->
+                                <td style="border: none; text-align: center;">{{ average | round(1) }}</td>  <!-- Rounded to one decimal -->
                             </tr>
                         {% endfor %}
                     </tbody>
@@ -120,7 +122,7 @@
             </div>
         </div>
 
-        <!-- Section pour afficher les utilisateurs les plus actifs -->
+        <!-- Most Active Users Section -->
         <div class="row mt-5">
             <div class="col-md-12">
                 <h2 style="color: white; text-align: center;">Most Active Users</h2>
@@ -145,6 +147,7 @@
             </div>
         </div>
 
+        <!-- Activity Peaks by Hour -->
         <div class="row mt-5">
             <div class="col-md-12">
                 <h2 style="color: white; text-align: center;">Activity Peaks by Hour</h2>
@@ -187,6 +190,7 @@
             });
         </script>
 
+        <!-- Activity Peaks by Day -->
         <div class="row mt-5">
             <div class="col-md-12">
                 <h2 style="color: white; text-align: center;">Activity Peaks by Day</h2>
