@@ -84,7 +84,7 @@ Avec VSCode : (EST-CE IMPORTANT DE FAIRE ```python main.py``` ?)
 
 Avec Docker : (Où METTRE L'INFO LOCALHOST:8000 ?)
 
-- [ ] Dans le logiciel Docker, exécuter ```docker compose up --build``` puis attendre que l'installation se termine
+- [ ] Dans le terminal, exécuter ```docker compose up --build``` puis attendre que l'installation se termine
 - [ ] 2 possibilités :
   - Lancer le conteneur
   - exécuter ```docker compose up -d flask_app```
