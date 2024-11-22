@@ -83,7 +83,12 @@ Avec VSCode : (EST-CE IMPORTANT DE FAIRE ```python main.py``` ?)
 - [ ] Exécuter ```python app.py```
 
 Avec Docker : (Où METTRE L'INFO LOCALHOST:8000 ?)
+Avant de lancer la commande docker-compose up --build, il est nécessaire de modifier le fichier app.py en retirant les commentaires (#) devant les lignes suivantes :
 
+from flask_sqlalchemy import SQLAlchemy
+app.config["SQLALCHEMY_DATABASE_URI"] = environ.get("DB_URL")
+db = SQLAlchemy(app)
+Ensuite, il faut accéder au fichier .env et changer le nom de la base de données en flask_db.
 - [ ] Dans le terminal, exécuter ```docker compose up --build``` puis attendre que l'installation se termine
 - [ ] 2 possibilités :
   - Lancer le conteneur
