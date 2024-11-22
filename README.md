@@ -68,7 +68,7 @@ DB_PORT=5432
 DB_USER=postgres
 DB_PASSWORD=postgres
 DB_NAME=postgres
-OPEN_API_KEY=sk-proj-63d5n15RLPJysk4gEa8uT3BlbkFJGs4OWoLxKS6C5vMjah5
+OPEN_API_KEY=sk-proj-63d5n15RLPJysk4gEa8uT3BlbkFJGvs4OWoLxKS6C5vMjah5
 ```
 
 ---
