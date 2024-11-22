@@ -154,15 +154,7 @@ def spotify_analytics():
         dates = sorted(
             set(date.strftime("%Y-%m-%d") for date, artist, count in top_artists_by_date)
         )
-        dates = sorted(
-            set(date.strftime("%Y-%m-%d") for date, artist, count in top_artists_by_date)
-        )
         top_artists = {
-            date: [
-                (artist, count)
-                for d, artist, count in top_artists_by_date
-                if d.strftime("%Y-%m-%d") == date
-            ][:10]
             date: [
                 (artist, count)
                 for d, artist, count in top_artists_by_date
@@ -182,13 +174,12 @@ def spotify_analytics():
             most_active_users=active_users,
             activity_peaks=activity_peaks,
             gender_stats=demographics_data["gender"],
-            gender_stats=demographics_data["gender"],
             longest_sessions=longest_sessions,
-            dates=dates,
             dates=dates,
         )
     except Exception as e:
         return render_template("error.html", error_message=str(e)), 500
+
 
 # Routes REST API ajoutées
 @app.route('/api/users', methods=['GET'])
