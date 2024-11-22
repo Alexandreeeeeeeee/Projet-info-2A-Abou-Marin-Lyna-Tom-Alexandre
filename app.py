@@ -10,8 +10,8 @@ from dotenv import load_dotenv
 
 load_dotenv()
 app = Flask(__name__, static_folder="src/static", template_folder="src/templates")
-# app.config['SQLALCHEMY_DATABASE_URI']=environ.get('DB_URL')
-# db= SQLAlchemy(app)
+# app.config["SQLALCHEMY_DATABASE_URI"] = environ.get("DB_URL")
+# db = SQLAlchemy(app)
 
 # Instance du service Spotify
 spotify_service = SpotifyService()
