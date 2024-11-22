@@ -8,7 +8,12 @@ from datetime import datetime
 from os import environ
 import os
 from dotenv import load_dotenv
+from dotenv import load_dotenv
 
+load_dotenv()
+app = Flask(__name__, static_folder="src/static", template_folder="src/templates")
+# app.config["SQLALCHEMY_DATABASE_URI"] = environ.get("DB_URL")
+# db = SQLAlchemy(app)
 load_dotenv()
 app = Flask(__name__, static_folder="src/static", template_folder="src/templates")
 # app.config["SQLALCHEMY_DATABASE_URI"] = environ.get("DB_URL")
@@ -40,14 +45,19 @@ def handle_exception(e):
 
 
 @app.route("/test_404")
+
+@app.route("/test_404")
 def test_404():
     return render_template("404.html")
 
 
 @app.route("/")
+
+@app.route("/")
 def indexx():
     """Affiche la page d'accueil."""
     try:
+        return render_template("indexx.html")
         return render_template("indexx.html")
     except Exception as e:
         return render_template("error.html", error_message=str(e)), 500
@@ -80,9 +90,14 @@ def index():
 
 
 @app.route("/mapp")
+@app.route("/mapp")
 def show_mapp():
     """Affiche la carte avec les positions des utilisateurs."""
     try:
+        user_locations = (
+            spotify_service.get_user_coordinates()
+        )  # Récupérer les coordonnées des utilisateurs
+        return render_template("map_content.html", user_locations=user_locations)
         user_locations = (
             spotify_service.get_user_coordinates()
         )  # Récupérer les coordonnées des utilisateurs
@@ -92,9 +107,12 @@ def show_mapp():
 
 
 @app.route("/ask", methods=["GET", "POST"])
+@app.route("/ask", methods=["GET", "POST"])
 def ask():
     """Affiche et gère le formulaire de requête SQL via OpenAI."""
     try:
+        if request.method == "POST":
+            question = request.form.get("question")
         if request.method == "POST":
             question = request.form.get("question")
             sql_query = openai_service.interpret_question(question)
@@ -102,12 +120,18 @@ def ask():
             if sql_query:
                 result = openai_service.execute_query(sql_query)
                 return render_template("ask.html", question=question, result=result)
+                return render_template("ask.html", question=question, result=result)
             else:
                 return render_template(
                     "ask.html", question=question, error="Impossible de générer une requête SQL."
                 )
 
+                return render_template(
+                    "ask.html", question=question, error="Impossible de générer une requête SQL."
+                )
+
         # Handle GET request to show the ask form without any question or result
+        return render_template("ask.html")
         return render_template("ask.html")
     except Exception as e:
         return render_template("error.html", error_message=str(e)), 500
@@ -130,7 +154,15 @@ def spotify_analytics():
         dates = sorted(
             set(date.strftime("%Y-%m-%d") for date, artist, count in top_artists_by_date)
         )
+        dates = sorted(
+            set(date.strftime("%Y-%m-%d") for date, artist, count in top_artists_by_date)
+        )
         top_artists = {
+            date: [
+                (artist, count)
+                for d, artist, count in top_artists_by_date
+                if d.strftime("%Y-%m-%d") == date
+            ][:10]
             date: [
                 (artist, count)
                 for d, artist, count in top_artists_by_date
@@ -150,7 +182,9 @@ def spotify_analytics():
             most_active_users=active_users,
             activity_peaks=activity_peaks,
             gender_stats=demographics_data["gender"],
+            gender_stats=demographics_data["gender"],
             longest_sessions=longest_sessions,
+            dates=dates,
             dates=dates,
         )
     except Exception as e:

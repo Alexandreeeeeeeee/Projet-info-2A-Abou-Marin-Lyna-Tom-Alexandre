@@ -1,14 +1,15 @@
 import unittest
 from unittest.mock import patch, MagicMock
 from src.service.spotify_service import SpotifyService
-from datetime import datetime  
+from datetime import datetime
+
 
 class TestSpotifyService(unittest.TestCase):
 
-    @patch('src.service.spotify_service.UtilisateurDAO')
-    @patch('src.service.spotify_service.SongDAO')
-    @patch('src.service.spotify_service.SessionDAO')
-    @patch('src.service.spotify_service.ContenirDAO')
+    @patch("src.service.spotify_service.UtilisateurDAO")
+    @patch("src.service.spotify_service.SongDAO")
+    @patch("src.service.spotify_service.SessionDAO")
+    @patch("src.service.spotify_service.ContenirDAO")
     def setUp(self, MockContenirDAO, MockSessionDAO, MockSongDAO, MockUtilisateurDAO):
         self.mock_utilisateur_dao = MockUtilisateurDAO.return_value
         self.mock_song_dao = MockSongDAO.return_value
@@ -27,7 +28,9 @@ class TestSpotifyService(unittest.TestCase):
 
     def test_get_total_users(self):
         mock_cursor = MagicMock()
-        self.mock_utilisateur_dao.connection.cursor.return_value.__enter__.return_value = mock_cursor
+        self.mock_utilisateur_dao.connection.cursor.return_value.__enter__.return_value = (
+            mock_cursor
+        )
         mock_cursor.fetchone.return_value = [939]
 
         total_users = self.service.get_total_users()
@@ -47,28 +50,26 @@ class TestSpotifyService(unittest.TestCase):
         mock_cursor = MagicMock()
         self.mock_session_dao.connection.cursor.return_value.__enter__.return_value = mock_cursor
         mock_cursor.fetchall.return_value = [
-            ('2024-11-16', 'Coldplay', 16),
-            ('2024-11-15', 'Coldplay', 28)
+            ("2024-11-16", "Coldplay", 16),
+            ("2024-11-15", "Coldplay", 28),
         ]
 
         top_artists = self.service.get_top_artists_by_date()
         expected_results = [
-            (datetime.strptime('2024-11-16', '%Y-%m-%d'), 'Coldplay', 16),
-            (datetime.strptime('2024-11-15', '%Y-%m-%d'), 'Coldplay', 28)
+            (datetime.strptime("2024-11-16", "%Y-%m-%d"), "Coldplay", 16),
+            (datetime.strptime("2024-11-15", "%Y-%m-%d"), "Coldplay", 28),
         ]
         self.assertEqual(top_artists, expected_results)
 
     def test_get_average_item_in_session_by_level(self):
         mock_cursor = MagicMock()
         self.mock_session_dao.connection.cursor.return_value.__enter__.return_value = mock_cursor
-        mock_cursor.fetchall.return_value = [
-            ('free', 31.8),
-            ('paid', 139.6)
-        ]
+        mock_cursor.fetchall.return_value = [("free", 31.8), ("paid", 139.6)]
 
         average_items = self.service.get_average_item_in_session_by_level()
-        expected_results = {'free': 31.8, 'paid': 139.6}
+        expected_results = {"free": 31.8, "paid": 139.6}
         self.assertEqual(average_items, expected_results)
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     unittest.main()
