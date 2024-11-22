@@ -57,6 +57,7 @@ class SpotifyService:
             (datetime.strptime(row[0], '%Y-%m-%d'), row[1], row[2]) for row in results
         ]
 
+    
 
     def get_average_item_in_session_by_level(self):
         """Retourne la moyenne des éléments par session, groupée par niveau d'abonnement."""

@@ -44,7 +44,7 @@ services:
       - DB_PASSWORD=postgres
     volumes:
       - ./client.properties:/app/config/client.properties
-      - ./consumer.py:/app/consumer.py
+      - ./src/service/kafka_consumer_service.py:/app/kafka_consumer_service.py 
 
 volumes:
   pgdata: {}

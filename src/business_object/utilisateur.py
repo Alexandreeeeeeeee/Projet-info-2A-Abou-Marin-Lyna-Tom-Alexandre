@@ -1,11 +1,7 @@
-"""
-Module contenant la classe Utilisateur pour représenter les utilisateurs de la base de données.
-"""
-
 class Utilisateur:
     """Classe représentant un utilisateur avec ses attributs associés dans la base de données."""
 
-    def __init__(self, user_id, last_name, first_name, gender, lon, lat, city, zip_code, state, registration,session_count=None):
+    def __init__(self, user_id, last_name, first_name, gender, lon, lat, city, zip_code, state, registration, session_count=None):
         """
         Initialise une instance de la classe Utilisateur.
 
@@ -19,6 +15,7 @@ class Utilisateur:
         :param zip_code: Code postal de l'utilisateur
         :param state: État ou région de l'utilisateur
         :param registration: Date d'inscription de l'utilisateur
+        :param session_count: Nombre de sessions associées à l'utilisateur (optionnel)
         """
         self.user_id = user_id
         self.last_name = last_name
@@ -43,5 +40,25 @@ class Utilisateur:
             f"first_name='{self.first_name}', gender='{self.gender}', "
             f"lon={self.lon}, lat={self.lat}, city='{self.city}', "
             f"zip_code='{self.zip_code}', state='{self.state}', "
-            f"registration='{self.registration}')"
+            f"registration='{self.registration}', session_count={self.session_count})"
         )
+    
+    def to_dict(self):
+        """
+        Convertit l'objet Utilisateur en un dictionnaire JSON-friendly.
+
+        :return: Un dictionnaire représentant l'utilisateur
+        """
+        return {
+            "user_id": self.user_id,
+            "last_name": self.last_name,
+            "first_name": self.first_name,
+            "gender": self.gender,
+            "lon": self.lon,
+            "lat": self.lat,
+            "city": self.city,
+            "zip_code": self.zip_code,
+            "state": self.state,
+            "registration": self.registration,
+            "session_count": self.session_count,
+        }

@@ -18,3 +18,12 @@ class Song:
     def __repr__(self):
         """Retourne une représentation en chaîne de caractères de la chanson."""
         return f"Song(song_id={self.song_id}, song='{self.song}', artist='{self.artist}', duration={self.duration})"
+
+    def to_dict(self):
+        """Convertit l'objet Song en dictionnaire pour la sérialisation JSON."""
+        return {
+            'song_id': self.song_id,
+            'song': self.song,
+            'artist': self.artist,
+            'duration': self.duration
+        }
