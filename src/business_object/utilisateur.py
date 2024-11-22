@@ -5,7 +5,7 @@ Module contenant la classe Utilisateur pour représenter les utilisateurs de la 
 class Utilisateur:
     """Classe représentant un utilisateur avec ses attributs associés dans la base de données."""
 
-    def __init__(self, user_id, last_name, first_name, gender, lon, lat, city, zip_code, state, registration):
+    def __init__(self, user_id, last_name, first_name, gender, lon, lat, city, zip_code, state, registration,session_count=None):
         """
         Initialise une instance de la classe Utilisateur.
 
@@ -30,6 +30,7 @@ class Utilisateur:
         self.zip_code = zip_code
         self.state = state
         self.registration = registration
+        self.session_count = session_count
 
     def __repr__(self):
         """
