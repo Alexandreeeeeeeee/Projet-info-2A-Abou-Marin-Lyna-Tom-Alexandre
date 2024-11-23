@@ -75,23 +75,44 @@ OPEN_API_KEY=sk-proj-63d5n15RLPJysk4gEa8uT3BlbkFJGvs4OWoLxKS6C5vMjah5
 
 ## :arrow_forward: Utilisez l'application
 
-### Lancez l'application
+# Lancer l'application
 
-Avec VSCode : (EST-CE IMPORTANT DE FAIRE ```python app.py``` ?)
+Vous avez deux possibilités pour lancer l'application : **avec Python** ou **avec Docker**.
 
-- [ ] Dans le terminal, exécuter ```python app.py```
-- [ ] Exécuter ```python app.py```
+## 1. Lancer avec Python
 
-Avant de lancer la commande docker-compose up --build, il est nécessaire de modifier le fichier app.py en retirant les commentaires (#) devant les lignes suivantes :
+1. Ouvrez le terminal dans **VSCode**.
+2. Exécutez la commande suivante :  
+   ```bash
+   python app.py
 
-- [ ] from flask_sqlalchemy import SQLAlchemy
-- [ ] app.config["SQLALCHEMY_DATABASE_URI"] = environ.get("DB_URL")
-- [ ] db = SQLAlchemy(app)
-Ensuite, il faut accéder au fichier .env et changer le nom de la base de données en flask_db.
-- [ ] Dans le terminal, exécuter ```docker compose up --build``` puis attendre que l'installation se termine
-- [ ] 2 possibilités :
-  - Lancer le conteneur depuis le logiciel docker 
-  - exécuter ```docker compose up -d flask_app```
+## 2. Lancer avec Docker
+
+### Étape 1 : Préparer l'application
+
+- Modifiez le fichier `app.py` :
+  - Retirez les commentaires (`#`) devant les lignes suivantes :
+    - `from flask_sqlalchemy import SQLAlchemy`
+    - `app.config["SQLALCHEMY_DATABASE_URI"] = environ.get("DB_URL")`
+    - `db = SQLAlchemy(app)`
+
+- Modifiez le fichier `.env` pour changer le nom de la base de données en :  
+
+### Étape 2 : Construire et exécuter Docker
+
+1. Ouvrez le terminal et exécutez la commande suivante pour construire et démarrer les conteneurs :  
+ ```bash
+ docker compose up --build
+ 
+ 
+ ### Étape 3 : Démarrer l'application
+Une fois l'installation terminée, choisissez l'une des options suivantes pour démarrer l'application :  
+
+- **Option 1** : Lancer le conteneur via l'interface graphique de Docker Desktop.  
+- **Option 2** : Utiliser le terminal pour démarrer le conteneur en arrière-plan :  
+  ```bash
+  docker compose up -d flask_app
+
 
 ### Lancez les services
 
