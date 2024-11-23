@@ -96,7 +96,7 @@ Vous avez deux possibilités pour lancer l'application : **avec Python** ou **av
     - `app.config["SQLALCHEMY_DATABASE_URI"] = environ.get("DB_URL")`
     - `db = SQLAlchemy(app)`
 
-- Modifiez le fichier `.env` pour changer le nom de la base de données en :  
+- Modifiez le fichier `.env` pour changer le nom de la base de données en : flask_db
 
 ### Étape 2 : Construire et exécuter Docker
 
