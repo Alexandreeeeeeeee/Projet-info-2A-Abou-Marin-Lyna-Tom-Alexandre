@@ -101,7 +101,7 @@ Vous avez deux possibilités pour lancer l'application : **avec Python** ou **av
 ### Étape 2 : Construire et exécuter Docker
 
 1. Ouvrez le terminal et exécutez la commande suivante pour construire et démarrer les conteneurs :  
- ```bash
+ ```
  docker compose up --build
  ```
  
@@ -110,7 +110,7 @@ Une fois l'installation terminée, choisissez l'une des options suivantes pour d
 
 - **Option 1** : Lancer le conteneur via l'interface graphique de Docker Desktop.  
 - **Option 2** : Utiliser le terminal pour démarrer le conteneur en arrière-plan :  
-  ```bash
+  ```
   docker compose up -d flask_app
   ```
 
